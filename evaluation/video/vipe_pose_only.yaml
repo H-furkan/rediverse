@@ -1,0 +1,9 @@
+defaults:
+  - default
+
+# pose-only: SLAM camera poses + intrinsics, no instance segmentation, no dense depth alignment
+init:
+  instance: null
+
+post:
+  depth_align_model: null

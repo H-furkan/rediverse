@@ -1,0 +1,39 @@
+# Generated data, model outputs and third-party checkouts
+data/
+outputs/
+third_party/
+
+# Local environments and downloaded weights
+venvs/
+ReDiverse-weights/
+*.run
+
+# Training captions are downloaded by prompts/download_train_captions.py
+prompts/train_captions.txt
+
+# Weights, tensors, noise banks and media
+*.pt
+*.pth
+*.safetensors
+*.npz
+*.npy
+*.mp4
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+!assets/*.png
+!assets/*.jpg
+!assets/*.webp
+!assets/**/*.png
+
+# Multi-worker claim locks and partial writes
+.claims/
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
