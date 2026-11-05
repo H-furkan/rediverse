@@ -214,8 +214,8 @@ Bold marks the best diversity value among the 4-step rows.
 ## Installation
 
 ```bash
-git clone https://github.com/H-furkan/ReDiverse-code
-cd ReDiverse-code
+git clone https://github.com/H-furkan/rediverse
+cd rediverse
 ```
 
 The paper's numbers come from six Python environments whose pins are incompatible (for example,
@@ -465,7 +465,7 @@ python -m evaluation.tables.video_table --backbone h3
 ## Repository structure
 
 ```
-ReDiverse-code/
+rediverse/
 ├── README.md
 ├── LICENSE                      Apache-2.0
 ├── assets/                      figures and animations of this README
