@@ -6,6 +6,8 @@
 #   train        ReDiverse-FT training (torchrun, one rank per GPU), then conversion to safetensors
 #   directions   ReDiverse-TF directions for VBench-300 (one worker per GPU)
 #   generate     the five arms on VBench-300 x 10 (one worker per GPU per arm)
+#   probe        activation probing of teacher and student on the paper's probe prompts (one worker
+#                per GPU), then the per-block report (video env; PY_VIDEO, PROBE_RAM_GB per worker, default 96)
 #
 # GPUS lists the devices to use (default 0 1 2 3 4 5 6 7; the released adapter was trained with
 # 8 ranks). PY_TRAIN / PY_VIDEO are the interpreters of the train and video
@@ -22,6 +24,8 @@ read -r -a A <<< "${ARMS:-teacher student rediverse_ft rediverse_tf rediverse}"
 ADAPTER=${ADAPTER:-hf}
 OUT=${REDIVERSE_OUT:-outputs}
 N=${#G[@]}
+PY_PROBE=${PY_VIDEO:-python}
+PROBE_RAM_GB=${PROBE_RAM_GB:-96}
 
 sharded() {   # sharded <python> <module> <args...>: one worker per GPU; @K@ in an argument becomes its index
     local py=$1; shift
@@ -57,8 +61,21 @@ for stage in "$@"; do
                 sharded "$PY_VIDEO" wan.generate --arm "$arm" --adapter "$ADAPTER" --shard @K@ --num-shards "$N"
             done
             ;;
+        probe)
+            for arm in teacher student; do
+                n=${#G[@]}; k=0
+                for g in "${G[@]}"; do
+                    CUDA_VISIBLE_DEVICES=$g "$PY_PROBE" -m wan.probe --arm "$arm" --ram-gb "$PROBE_RAM_GB" \
+                        --shard "$k" --num-shards "$n" --device cuda:0 &
+                    k=$((k + 1))
+                done
+                wait
+            done
+            "$PY_PROBE" -m rediverse.probe_report --backbone wan2.1 --tsv "$OUT/wan2.1/probe/report.tsv" \
+                --plot "$OUT/wan2.1/probe/report.png"
+            ;;
         *)
-            echo "unknown stage $stage (encode | bank | train | directions | generate)" >&2
+            echo "unknown stage $stage (encode | bank | train | directions | generate | probe)" >&2
             exit 1
             ;;
     esac

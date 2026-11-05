@@ -42,6 +42,7 @@ declares (`image-reward` 1.5 declares `timm==0.6.13`, `opencv-python-headless` 5
 | Wan 2.1: ReDiverse-FT target bank and training | `train` |
 | Wan 2.1: generation (all five arms), ReDiverse-TF directions | `video` |
 | MiniMax-H3: text contexts, target bank, ReDiverse-FT training, ReDiverse-TF directions, generation, decoding | `video` |
+| Activation probing of all four backbones (`sdxl.probe`, `sd3.probe`, `wan.probe`, `h3.probe`) and `rediverse.probe_report` | `video` |
 | Image metrics: DINO, Vendi, DreamSim, CLIPScore features; LPIPS, HPSv2.1, ImageReward; image tables (PickScore is optional and in no paper table) | `image` |
 | TPIPS (images and video), video DINO and V-JEPA 2 features, video metric aggregation and tables | `tpips` |
 | ViCLIP scores, VBench subject / background consistency | `vbench` |

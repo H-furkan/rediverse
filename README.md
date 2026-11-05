@@ -1,8 +1,8 @@
 <h1 align="center">Restoring Diversity in Distilled Image and Video Generators by Probing Activations</h1>
 
 <p align="center">
-  Furkan Horoz<sup>1*</sup>&nbsp;&nbsp;
-  Ozgur Kara<sup>1*</sup>&nbsp;&nbsp;
+  Furkan Horoz<sup>1</sup>&nbsp;&nbsp;
+  Ozgur Kara<sup>1</sup>&nbsp;&nbsp;
   Kaan Oktay<sup>2</sup>&nbsp;&nbsp;
   Adil Kaan Akan<sup>2</sup>&nbsp;&nbsp;
   Atakan Kara<sup>2</sup>&nbsp;&nbsp;
@@ -14,10 +14,11 @@
   <sup>2</sup>fal&nbsp;&nbsp;
   <sup>3</sup>Johns Hopkins University
   <br>
-  <sup>*</sup>Equal contribution&nbsp;&nbsp;&nbsp;<sup>&dagger;</sup>Equal advising
+  <sup>&dagger;</sup>Equal advising
 </p>
 
 <p align="center">
+  <a href="https://h-furkan.github.io/rediverse/"><img src="https://img.shields.io/badge/Project-Page-4b6bfb" alt="Project page"></a>
   <a href="https://huggingface.co/Fo-zh/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-ffc107" alt="Hugging Face weights"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
 </p>
@@ -45,6 +46,7 @@ seed, with time running from left to right.</sub></p>
 
 - [Overview](#overview)
 - [Method](#method)
+- [Probing the collapse](#probing-the-collapse)
 - [Results](#results)
 - [Installation](#installation)
 - [Quickstart](#quickstart)
@@ -103,6 +105,60 @@ blocks and steps run unchanged and render with the student's own fidelity.
 | SD3 | SD3-Medium, 28 steps, CFG 7 | TDM LoRA | `transformer_blocks.12` (image stream) | conditional forward 9, after 8 teacher steps at CFG 7 | conditional teacher, forward 9 |
 | Wan 2.1 | Wan2.1-T2V-14B, 50 UniPC steps, CFG 5 | lightx2v StepDistill-CfgDistill | `blocks.28` | forward 13 of the CFG-distilled teacher (Perflow CFG5-to-CFG1 LoRA, guidance 1, flow shift 5) | conditional teacher, forward 8 |
 | MiniMax-H3 | MiniMax-H3, 50 steps, guidance-distilled | lightx2v Turbo LoRA | `transformer_blocks.45` (video tokens) | teacher forward 16 | teacher forward 16 |
+
+## Probing the collapse
+
+The collapsed block ℓ comes from probing the activations of the teacher and the student under
+identical inputs (paper Sec. 3.1 and App. A). For one prompt, both models get the same N = 1000
+noises as the input of their first denoising step (conditional branch, one forward). At every
+block the N flattened activations, centred over the noises, give a covariance Σ<sub>b</sub> whose
+eigenvalues λ<sub>j</sub> are read off the N x N Gram matrix:
+
+| Quantity | Definition | Meaning |
+|---|---|---|
+| Total variance | TV = Tr(Σ<sub>b</sub>) = Σ<sub>j</sub> λ<sub>j</sub> | how far the activations move when the noise changes |
+| Participation ratio | PR = (Σ<sub>j</sub> λ<sub>j</sub>)<sup>2</sup> / Σ<sub>j</sub> λ<sub>j</sub><sup>2</sup> | how many directions that variance effectively spans |
+| Concentration | Conc = TV / PR | variance carried per effective direction |
+
+<p align="center">
+  <img src="assets/probe_depth.png" width="100%" alt="Participation ratio, total variance and concentration of teacher and student at every block of SDXL and Wan 2.1">
+</p>
+<p align="center"><sub>Participation ratio, total variance and concentration at every block of the first denoising
+step (paper Fig. 2; TV and Conc min-max normalised over teacher and student). The vertical line marks the
+collapsed block.</sub></p>
+
+Early blocks of the students track their teachers; from the collapsed block on, the student keeps
+(or amplifies) the total variance but spans far fewer directions. Student/teacher ratios at ℓ
+(paper Tab. 1, means over prompts):
+
+| Student | PR | TV | Conc |
+|---|---:|---:|---:|
+| DMD2 (SDXL) | 0.40 | 1.63 | 4.76 |
+| TDM (SD3) | 0.49 | 1.03 | 2.68 |
+| lightx2v (Wan 2.1) | 0.60 | 1.41 | 2.54 |
+| Turbo (MiniMax-H3) | 0.37 | 2.92 | 8.08 |
+
+Every backbone has a probe with the same interface; `rediverse.probe_report` turns the per-prompt
+records into the per-block table and these ratios:
+
+```bash
+python -m sdxl.probe --arm teacher --prompt-ids 27 --device cuda:0   # video env, about 4 min per arm
+python -m sdxl.probe --arm student --prompt-ids 27 --device cuda:0
+python -m rediverse.probe_report --backbone sdxl --tsv sdxl_probe.tsv --plot sdxl_probe.png
+```
+
+`sd3.probe`, `wan.probe` and `h3.probe` take the same arguments
+(`rediverse.probe_report --backbone sd3 | wan2.1 | minimax-h3`). All probes run in the `video`
+environment, where they reproduce the paper's per-prompt records (SD3 exactly, SDXL to 1e-6
+relative); other diffusers versions move the values by up to about 1e-3. Without `--prompt-ids` they probe
+the paper's prompt sets: the 100 GenEval prompts of `prompts/geneval_subset100.txt` for the image
+backbones and the 20 of `prompts/probe_video20.txt` for the video backbones (Wan 2.1 at 17 frames,
+as in the paper; MiniMax-H3 at the release's 124 frames, the setting of its Tab. 1 row). Noise `i`
+of prompt `p` is seeded `1_000_000 + p * 100003 + i` in both arms. Activations are staged on the
+host in the model's dtype and the Gram is accumulated in float64 on the GPU; `--ram-gb` (default
+256) caps the staging memory, and blocks that do not fit are probed in further passes over the same
+noises, which leaves the results unchanged. The video backbones stage 40-200 M values per block and
+noise, so they need a large host or a smaller `--n`.
 
 ## Results
 
@@ -179,7 +235,7 @@ python3.10 -m venv venvs/vbench && venvs/vbench/bin/pip install --no-deps -r env
 |---|---|
 | `train` | ReDiverse-FT training (SDXL, SD3, Wan 2.1); the Wan 2.1 target bank; everything for SD3 (caption encoding, noise bank, generation, directions) |
 | `image` | SDXL noise bank, generation and directions; image metrics (DINO, Vendi, DreamSim, LPIPS, CLIPScore, HPSv2.1, ImageReward) and tables |
-| `video` | Wan 2.1 text contexts, generation and directions; the whole MiniMax-H3 pipeline |
+| `video` | Wan 2.1 text contexts, generation and directions; the whole MiniMax-H3 pipeline; activation probing of all four backbones |
 | `tpips` | TPIPS (images and video), video DINO and V-JEPA 2 features, video metric aggregation and tables |
 | `vbench` | ViCLIP scores, VBench subject / background consistency |
 | `vipe` | camera trajectories (ViPE) |
@@ -414,12 +470,14 @@ ReDiverse-code/
 ├── LICENSE                      Apache-2.0
 ├── assets/                      figures and animations of this README
 ├── envs/                        pinned requirements of the six environments + README, vipe.md
-├── prompts/                     GenEval-553, VBench-300 and their subsets, H3 training prompt ids,
+├── prompts/                     GenEval-553, VBench-300 and their subsets, H3 training prompt ids, probe prompt ids,
 │                                download_train_captions.py (the 100 DiffusionDB training captions),
 │                                README.md (sources, indexing and licenses)
 ├── rediverse/                   backbone-agnostic helpers
 │   ├── seeds.py                 every seed rule (training noise, evaluation noise, direction latents, TF coefficients)
 │   ├── directions.py            ReDiverse-TF: principal directions from teacher samples, offsets, direction files
+│   ├── probe.py                 activation probing: per-block TV / PR / concentration from the noise Gram
+│   ├── probe_report.py          probe records -> per-block table, student/teacher ratios (Tab. 1), plot
 │   ├── data.py                  training captions, step sampler, run metadata
 │   ├── hub.py                   released adapter download and loading
 │   ├── claims.py                per-item locks for multi-worker runs
@@ -436,13 +494,15 @@ ReDiverse-code/
 │   ├── extract_adapter.py       FastGen checkpoint -> adapter (.pth)
 │   ├── convert_weights.py       extracted adapter (.pth) -> released safetensors
 │   ├── estimate_directions.py   ReDiverse-TF directions
-│   └── generate.py              the five arms, benchmark and --prompt mode
+│   ├── generate.py              the five arms, benchmark and --prompt mode
+│   └── probe.py                 per-block variance characteristic (teacher or student)
 ├── sd3/                         SD3-Medium + TDM (config, encode_prompts, make_noise_bank, model, train,
-│                                convert_weights, estimate_directions, generate)
+│                                convert_weights, estimate_directions, generate, probe)
 ├── wan/                         Wan 2.1 + lightx2v (config, encode_prompts, cfgd_teacher, target_bank,
-│                                build_targets, model, train, convert_weights, estimate_directions, generate)
+│                                build_targets, model, train, convert_weights, estimate_directions, generate,
+│                                probe)
 ├── h3/                          MiniMax-H3 + Turbo (config, encode_prompts, build_targets, model, split2,
-│                                train, convert_weights, estimate_directions, generate)
+│                                train, convert_weights, estimate_directions, generate, probe)
 ├── evaluation/
 │   ├── common/                  prompt-grid checks, pairwise diversity, TPIPS factors and the pinned
 │   │                            TPIPS-Embed checkpoint, atomic writes

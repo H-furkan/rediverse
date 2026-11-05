@@ -5,10 +5,10 @@ they change to the repository root. Each stage runs the commands documented in t
 
 | Driver | Stages | Variables |
 |---|---|---|
-| `bash scripts/sdxl.sh <stage> ...` | `data` (noise bank), `train` (FastGen checkout, captions, init checkpoint, ReDiverse-FT + conversion), `directions`, `generate` | `GPUS`, `PY_IMAGE` (`image` env), `PY_TRAIN` (`train` env), `ARMS`, `ADAPTER`; `HF_HOME` (required by `train`) |
-| `bash scripts/sd3.sh <stage> ...` | `data` (captions, embeddings, noise bank), `train` (ReDiverse-FT + conversion), `directions`, `generate` | `GPUS`, `PY_TRAIN` (`train` env), `ARMS`, `ADAPTER` |
-| `bash scripts/wan.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (torchrun + conversion), `directions`, `generate` | `GPUS`, `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER` |
-| `bash scripts/h3.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (two GPUs + conversion), `directions`, `generate` (latents, then mp4s) | `GPUS`, `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER` |
+| `bash scripts/sdxl.sh <stage> ...` | `data` (noise bank), `train` (FastGen checkout, captions, init checkpoint, ReDiverse-FT + conversion), `directions`, `generate`, `probe` | `GPUS`, `PY_IMAGE` (`image` env), `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env, `probe`), `ARMS`, `ADAPTER`, `PROBE_RAM_GB`; `HF_HOME` (required by `train`) |
+| `bash scripts/sd3.sh <stage> ...` | `data` (captions, embeddings, noise bank), `train` (ReDiverse-FT + conversion), `directions`, `generate`, `probe` | `GPUS`, `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env, `probe`), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
+| `bash scripts/wan.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (torchrun + conversion), `directions`, `generate`, `probe` | `GPUS`, `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
+| `bash scripts/h3.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (two GPUs + conversion), `directions`, `generate` (latents, then mp4s), `probe` | `GPUS`, `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
 
 - `GPUS` lists the devices (default `0 1 2 3 4 5 6 7`); sharded stages start one worker per device.
 - `PY_<ENV>` is the Python interpreter of an environment of [`envs/`](../envs/README.md), e.g.
@@ -22,6 +22,10 @@ they change to the repository root. Each stage runs the commands documented in t
   defaults to `outputs/minimax-h3/train/rediverse_ft`, where the `train` stage converts the adapter,
   since that adapter is not on the Hub; `generate` stops with a message if an FT arm is selected
   and the adapter does not exist.
+- `probe` runs the teacher and then the student on the paper's probe prompts, one shard per device,
+  and writes `outputs/<backbone>/probe/report.{tsv,png}`. `PROBE_RAM_GB` (default 96) is each
+  worker's staging budget for activations, so the host needs about `PROBE_RAM_GB` x the number of
+  devices of free memory.
 - `REDIVERSE_DATA` / `REDIVERSE_OUT` relocate data and outputs, as for the Python entry points.
 
 Example:

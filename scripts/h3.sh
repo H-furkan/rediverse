@@ -7,6 +7,8 @@
 #                outputs/minimax-h3/train/rediverse_ft/rediverse_ft.safetensors
 #   directions   ReDiverse-TF directions (one worker per GPU)
 #   generate     latents of the selected arms (one worker per GPU), then mp4s
+#   probe        activation probing of teacher and student on the paper's probe prompts (one worker
+#                per GPU), then the per-block report (video env; PY_VIDEO, PROBE_RAM_GB per worker, default 96)
 #
 # GPUS lists the devices to use (default 0 1 2 3 4 5 6 7); PY_VIDEO the interpreter of the video
 # environment (default python); ARMS the arms to generate (default all five). ADAPTER is the
@@ -21,6 +23,8 @@ read -r -a ARM_LIST <<< "${ARMS:-student rediverse_ft rediverse_tf rediverse tea
 OUT=${REDIVERSE_OUT:-outputs}
 ADAPTER=${ADAPTER:-$OUT/minimax-h3/train/rediverse_ft}
 export PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+PY_PROBE=${PY_VIDEO:-python}
+PROBE_RAM_GB=${PROBE_RAM_GB:-96}
 
 per_gpu() {   # per_gpu <module> <args...>: one worker per GPU, odd workers walk their list in reverse
     local n=0 pids=()
@@ -61,8 +65,21 @@ for stage in "$@"; do
                 REVERSE_FLAG="--reverse" per_gpu h3.generate --arm "$arm" --decode
             done
             ;;
+        probe)
+            for arm in teacher student; do
+                n=${#G[@]}; k=0
+                for g in "${G[@]}"; do
+                    CUDA_VISIBLE_DEVICES=$g "$PY_PROBE" -m h3.probe --arm "$arm" --ram-gb "$PROBE_RAM_GB" \
+                        --shard "$k" --num-shards "$n" --device cuda:0 &
+                    k=$((k + 1))
+                done
+                wait
+            done
+            "$PY_PROBE" -m rediverse.probe_report --backbone minimax-h3 --tsv "$OUT/minimax-h3/probe/report.tsv" \
+                --plot "$OUT/minimax-h3/probe/report.png"
+            ;;
         *)
-            echo "unknown stage: $stage (encode | bank | train | directions | generate)" >&2
+            echo "unknown stage: $stage (encode | bank | train | directions | generate | probe)" >&2
             exit 2
             ;;
     esac
