@@ -107,7 +107,9 @@ python -m h3.estimate_directions --prompt "a corgi running on the beach at sunse
 
 The H3 adapter is trained on its own data: 20 GenEval prompts (`prompts/h3_train_geneval_ids.txt`
 over `prompts/geneval_553.txt`) x 20 latents (seed `1_000_000 + p * 100003 + i`), with the teacher's
-block-45 video rows at forward 16 precomputed into a target bank.
+block-45 video rows at forward 16 precomputed into a target bank. This recipe differs from the shared recipe of the
+SDXL, SD3 and Wan 2.1 adapters (100 DiffusionDB captions x 16 noises, batch 32, plain MSE) that the paper describes for
+all four pairs; the paper's MiniMax-H3 ReDiverse-FT rows were produced with it.
 
 ```bash
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
