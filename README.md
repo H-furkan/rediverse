@@ -1,8 +1,8 @@
 <h1 align="center">Restoring Diversity in Distilled Image and Video Generators by Probing Activations</h1>
 
 <p align="center">
-  Furkan Horoz<sup>1</sup>,
-  Ozgur Kara<sup>1</sup>,
+  Furkan Horoz<sup>1,*</sup>,
+  Ozgur Kara<sup>1,*</sup>,
   Kaan Oktay<sup>2</sup>,
   Adil Kaan Akan<sup>2</sup>,
   Atakan Kara<sup>2</sup>,
@@ -13,7 +13,7 @@
 <p align="center">
   <sup>1</sup>University of Illinois Urbana-Champaign &nbsp;&nbsp; <sup>2</sup>fal &nbsp;&nbsp; <sup>3</sup>Johns Hopkins University<br>
   <b>Preprint, 2026</b><br>
-  <sub><sup>†</sup>Equal advising.</sub>
+  <sub><sup>*</sup>Equal contribution. &nbsp; <sup>†</sup>Equal advising.</sub>
 </p>
 
 <p align="center">
