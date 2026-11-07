@@ -1,8 +1,8 @@
 <h1 align="center">Restoring Diversity in Distilled Image and Video Generators by Probing Activations</h1>
 
 <p align="center">
-  Furkan Horoz<sup>1,*</sup>,
-  Ozgur Kara<sup>1,*</sup>,
+  Furkan Horoz<sup>1</sup>,
+  Ozgur Kara<sup>1</sup>,
   Kaan Oktay<sup>2</sup>,
   Adil Kaan Akan<sup>2</sup>,
   Atakan Kara<sup>2</sup>,
@@ -13,11 +13,11 @@
 <p align="center">
   <sup>1</sup>University of Illinois Urbana-Champaign &nbsp;&nbsp; <sup>2</sup>fal &nbsp;&nbsp; <sup>3</sup>Johns Hopkins University<br>
   <b>Preprint, 2026</b><br>
-  <sub><sup>*</sup>Equal contribution. &nbsp; <sup>†</sup>Equal advising.</sub>
+  <sub><sup>†</sup>Equal advising.</sub>
 </p>
 
 <p align="center">
-  <a href="https://h-furkan.github.io/rediverse/"><img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project page"></a>
+  <a href="https://rediverse-distillation.github.io/rediverse-distillation/"><img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project page"></a>
   <img src="https://img.shields.io/badge/Paper-coming%20soon-lightgrey.svg" alt="Paper: coming soon">
   <a href="https://huggingface.co/Fo-zh/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
@@ -27,7 +27,7 @@
   <img src="assets/teaser.jpg" width="80%" alt="Seed-matched samples of the 4-step student and ReDiverse on SDXL, SD3, Wan 2.1 and MiniMax-H3">
 </p>
 <p align="center"><em>For a fixed prompt the 4-step student repeats one composition; ReDiverse, from the same seeds, varies pose,
-distance, style, setting and viewpoint. More examples are on the <a href="https://h-furkan.github.io/rediverse/">project page</a>.</em></p>
+distance, style, setting and viewpoint. More examples are on the <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 **TL;DR.** Few-step distilled students lose sample diversity. Probing their activations shows why: the student keeps
 the teacher's activation variance across seeds but squeezes it into far fewer directions, starting at one block in the
