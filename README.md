@@ -91,16 +91,15 @@ commands that regenerate them.
 | **ReDiverse** | **65.0** | **60.1** | **52.2** | **50.9** |
 | *Teacher (multi-step)* | *66.3* | *61.6* | *51.6* | *52.5* |
 
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="assets/wan_rabbit.webp" width="100%" alt="Wan 2.1, student vs. ReDiverse, rabbit prompt"></td>
-    <td align="center" width="50%"><img src="assets/wan_elephant.webp" width="100%" alt="Wan 2.1, student vs. ReDiverse, elephant prompt"></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Wan 2.1: <i>"a fat rabbit wearing a purple robe walking through a fantasy landscape"</i></sub></td>
-    <td align="center"><sub>Wan 2.1: <i>"an elephant running to join a herd of its kind"</i></sub></td>
-  </tr>
-</table>
+<p align="center">
+  <img src="assets/results_wan.jpg" width="100%" alt="Wan 2.1, seed-matched clips of the 4-step student and ReDiverse for a dog and an astronaut prompt, three frames per clip">
+</p>
+<p align="center">
+  <img src="assets/results_h3.jpg" width="100%" alt="MiniMax-H3, seed-matched clips of the 4-step student and ReDiverse for an airplane and a penguin prompt, three frames per clip">
+</p>
+<p align="center"><em>Three seed-matched clips per prompt, each shown by its first, middle and last frame. The student repeats one
+shot (the same park, the same top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera
+and the subject. The clips play on the <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 ## 📦 Model zoo
 
