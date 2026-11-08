@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://rediverse-distillation.github.io/rediverse-distillation/"><img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project page"></a>
-  <img src="https://img.shields.io/badge/Paper-coming%20soon-lightgrey.svg" alt="Paper: coming soon">
+  <img src="https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg?logo=arxiv" alt="arXiv: coming soon">
   <a href="https://huggingface.co/Fo-zh/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
 </p>
@@ -91,15 +91,26 @@ commands that regenerate them.
 | **ReDiverse** | **65.0** | **60.1** | **52.2** | **50.9** |
 | *Teacher (multi-step)* | *66.3* | *61.6* | *51.6* | *52.5* |
 
-<p align="center">
-  <img src="assets/results_wan.jpg" width="100%" alt="Wan 2.1, seed-matched clips of the 4-step student and ReDiverse for a dog and an astronaut prompt, three frames per clip">
-</p>
-<p align="center">
-  <img src="assets/results_h3.jpg" width="100%" alt="MiniMax-H3, seed-matched clips of the 4-step student and ReDiverse for an airplane and a penguin prompt, three frames per clip">
-</p>
-<p align="center"><em>Three seed-matched clips per prompt, each shown by its first, middle and last frame. The student repeats one
-shot (the same park, the same top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera
-and the subject. The clips play on the <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="assets/wan_dog.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for a dog prompt"></td>
+    <td align="center" width="50%"><img src="assets/wan_astronaut.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for an astronaut prompt"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Wan 2.1: <i>"a dog running happily"</i></sub></td>
+    <td align="center"><sub>Wan 2.1: <i>"an astronaut flying in space, in super slow motion"</i></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/h3_airplane.webp" width="100%" alt="MiniMax-H3, three seed-matched clips of the student and ReDiverse for an airplane prompt"></td>
+    <td align="center"><img src="assets/h3_penguin.webp" width="100%" alt="MiniMax-H3, three seed-matched clips of the student and ReDiverse for a penguin prompt"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>MiniMax-H3: <i>"an airplane accelerating to gain speed"</i></sub></td>
+    <td align="center"><sub>MiniMax-H3: <i>"a penguin walking on ice"</i></sub></td>
+  </tr>
+</table>
+<p align="center"><em>Each row is one seed, the same for both columns. The student repeats one shot (the same park, the same
+top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera and the subject.</em></p>
 
 ## 📦 Model zoo
 
