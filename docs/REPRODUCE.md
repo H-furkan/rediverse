@@ -111,7 +111,7 @@ The MiniMax-H3 ReDiverse-FT adapter is not on the Hub: its `rediverse_ft` and `r
 ## Released weights
 
 The ReDiverse-FT adapters are on the Hugging Face Hub at
-[`Fo-zh/ReDiverse`](https://huggingface.co/Fo-zh/ReDiverse):
+[`ReDiverse/ReDiverse`](https://huggingface.co/ReDiverse/ReDiverse):
 
 | Backbone | Student | Teacher | File | Size | License |
 |---|---|---|---|---:|---|

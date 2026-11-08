@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://rediverse-distillation.github.io/rediverse-distillation/"><img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project page"></a>
   <img src="https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg?logo=arxiv" alt="arXiv: coming soon">
-  <a href="https://huggingface.co/Fo-zh/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
+  <a href="https://huggingface.co/ReDiverse/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
 </p>
 
@@ -54,7 +54,7 @@ supported by the user study.
 ## 📰 Updates
 
 - **[11/2026]** Code, the activation probe and the ReDiverse-FT adapters for SDXL, SD3 and Wan 2.1 on
-  🤗 [Hugging Face](https://huggingface.co/Fo-zh/ReDiverse).
+  🤗 [Hugging Face](https://huggingface.co/ReDiverse/ReDiverse).
 
 ## 🔍 Method
 
@@ -114,14 +114,14 @@ top-down runway, the same crowd of penguins); ReDiverse changes the setting, the
 
 ## 📦 Model zoo
 
-The ReDiverse-FT adapters are on 🤗 [Hugging Face: Fo-zh/ReDiverse](https://huggingface.co/Fo-zh/ReDiverse); the
+The ReDiverse-FT adapters are on 🤗 [Hugging Face: ReDiverse/ReDiverse](https://huggingface.co/ReDiverse/ReDiverse); the
 generators below download them on first use. ReDiverse-TF needs no weights.
 
 | Backbone | 4-step student | Adapter | Size | License |
 |---|---|---|---:|---|
-| SDXL | [DMD2](https://huggingface.co/tianweiy/DMD2) | 🤗 [`sdxl/rediverse_ft.safetensors`](https://huggingface.co/Fo-zh/ReDiverse/tree/main/sdxl) | 216 MB | CC BY-NC 4.0 + Open RAIL++-M restrictions |
-| SD3 | [TDM](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | 🤗 [`sd3/rediverse_ft.safetensors`](https://huggingface.co/Fo-zh/ReDiverse/tree/main/sd3) | 89 MB | Stability AI Community License |
-| Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/Fo-zh/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
+| SDXL | [DMD2](https://huggingface.co/tianweiy/DMD2) | 🤗 [`sdxl/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sdxl) | 216 MB | CC BY-NC 4.0 + Open RAIL++-M restrictions |
+| SD3 | [TDM](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | 🤗 [`sd3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sd3) | 89 MB | Stability AI Community License |
+| Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
 | MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | trained locally with [`h3/`](h3/README.md) | – | MiniMax H3 Community License |
 
 ## ⚙️ Setup

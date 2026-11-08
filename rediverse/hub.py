@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import os
 
-REDIVERSE_HF_REPO = "Fo-zh/ReDiverse"
+REDIVERSE_HF_REPO = "ReDiverse/ReDiverse"
 ADAPTER_FILE = "rediverse_ft.safetensors"
 # package name -> Hub subfolder
 BACKBONES = {"sdxl": "sdxl", "sd3": "sd3", "wan": "wan2.1", "h3": "minimax-h3"}
