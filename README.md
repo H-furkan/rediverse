@@ -68,12 +68,15 @@ supported by the user study.
   every sample adds Σ<sub>k</sub> α<sub>k</sub> s<sub>k</sub> u<sub>k</sub> (K = 8, α<sub>k</sub> ~ U[−2, 2]) to the
   student's activation at ℓ in step 1. No weights change.
 
-| Backbone | Teacher | 4-step student | Collapsed block ℓ | τ |
-|---|---|---|---|---:|
-| SDXL | SDXL-base 1.0 | DMD2 | `up_blocks.0.attentions.0` | 7 |
-| SD3 | SD3-Medium | TDM | `transformer_blocks.12` | 9 |
-| Wan 2.1 | Wan2.1-T2V-14B | lightx2v | `blocks.28` | 8 |
-| MiniMax-H3 | MiniMax-H3 | Turbo | `transformer_blocks.45` | 16 |
+| Backbone | Teacher | 4-step student | Collapsed block ℓ | τ (FT target) | τ (TF directions) |
+|---|---|---|---|---:|---:|
+| SDXL | SDXL-base 1.0 | DMD2 | `up_blocks.0.attentions.0` | 7 | 7 |
+| SD3 | SD3-Medium | TDM | `transformer_blocks.12` | 9 | 9 |
+| Wan 2.1 | Wan2.1-T2V-14B | lightx2v | `blocks.28` | 13 | 8 |
+| MiniMax-H3 | MiniMax-H3 | Turbo | `transformer_blocks.45` | 16 | 16 |
+
+On Wan 2.1 the ReDiverse-FT target is read from the CFG-distilled teacher (Wan 2.1 with the Perflow CFG5-to-CFG1 LoRA,
+50 UniPC steps, flow shift 5), so its step differs from the TF direction step.
 
 ## 📈 Results
 
