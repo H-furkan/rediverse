@@ -90,47 +90,25 @@ commands that regenerate them.
 | **ReDiverse** | **65.0** | **60.1** | **52.2** | **50.9** |
 | *Teacher (multi-step)* | *66.3* | *61.6* | *51.6* | *52.5* |
 
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="assets/sdxl_dog.jpg" width="100%" alt="SDXL, six seed-matched samples of the student and ReDiverse for a dog prompt"></td>
-    <td align="center" width="50%"><img src="assets/sdxl_parrot.jpg" width="100%" alt="SDXL, six seed-matched samples of the student and ReDiverse for a parrot prompt"></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>SDXL: <i>"a photo of a dog"</i></sub></td>
-    <td align="center"><sub>SDXL: <i>"a parrot"</i></sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="assets/sd3_backpack.jpg" width="100%" alt="SD3, six seed-matched samples of the student and ReDiverse for a backpack prompt"></td>
-    <td align="center"><img src="assets/sd3_bed.jpg" width="100%" alt="SD3, six seed-matched samples of the student and ReDiverse for a bed prompt"></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>SD3: <i>"a photo of a backpack"</i></sub></td>
-    <td align="center"><sub>SD3: <i>"a photo of a bed"</i></sub></td>
-  </tr>
-</table>
-<p align="center"><em>Each tile is one seed, at the same position in both columns. The student repeats one close-up or one
-studio shot; ReDiverse varies the breed, the framing, the style and the scene.</em></p>
-
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="assets/wan_dog.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for a dog prompt"></td>
-    <td align="center" width="50%"><img src="assets/wan_astronaut.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for an astronaut prompt"></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>Wan 2.1: <i>"a dog running happily"</i></sub></td>
-    <td align="center"><sub>Wan 2.1: <i>"an astronaut flying in space, in super slow motion"</i></sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="assets/h3_airplane.webp" width="100%" alt="MiniMax-H3, three seed-matched clips of the student and ReDiverse for an airplane prompt"></td>
-    <td align="center"><img src="assets/h3_penguin.webp" width="100%" alt="MiniMax-H3, three seed-matched clips of the student and ReDiverse for a penguin prompt"></td>
-  </tr>
-  <tr>
-    <td align="center"><sub>MiniMax-H3: <i>"an airplane accelerating to gain speed"</i></sub></td>
-    <td align="center"><sub>MiniMax-H3: <i>"a penguin walking on ice"</i></sub></td>
-  </tr>
-</table>
-<p align="center"><em>Each row is one seed, the same for both columns. The student repeats one shot (the same park, the same
-top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera and the subject. More examples are on the
+<p align="center">
+  <img src="assets/sdxl_dog.jpg" width="49%" alt="SDXL, a photo of a dog: six seed-matched samples of the student and of ReDiverse">
+  <img src="assets/sdxl_parrot.jpg" width="49%" alt="SDXL, a parrot: six seed-matched samples of the student and of ReDiverse">
+</p>
+<p align="center">
+  <img src="assets/sd3_backpack.jpg" width="49%" alt="SD3, a photo of a backpack: six seed-matched samples of the student and of ReDiverse">
+  <img src="assets/sd3_bed.jpg" width="49%" alt="SD3, a photo of a bed: six seed-matched samples of the student and of ReDiverse">
+</p>
+<p align="center">
+  <img src="assets/wan_dog.webp" width="49%" alt="Wan 2.1, a dog running happily: three seed-matched clips of the student and of ReDiverse">
+  <img src="assets/wan_astronaut.webp" width="49%" alt="Wan 2.1, an astronaut flying in space, in super slow motion: three seed-matched clips of the student and of ReDiverse">
+</p>
+<p align="center">
+  <img src="assets/h3_airplane.webp" width="49%" alt="MiniMax-H3, an airplane accelerating to gain speed: three seed-matched clips of the student and of ReDiverse">
+  <img src="assets/h3_penguin.webp" width="49%" alt="MiniMax-H3, a penguin walking on ice: three seed-matched clips of the student and of ReDiverse">
+</p>
+<p align="center"><em>In each figure, every ReDiverse sample starts from the same noise as the student sample at the same position. The
+student repeats one shot (the same close-up, the same park, the same top-down runway); ReDiverse varies the subject, the
+style, the setting and the camera. More examples are on the
 <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 ## 📦 Model zoo
