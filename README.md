@@ -1,4 +1,9 @@
-<h1 align="center">Restoring Diversity in Distilled Image and Video Generators by Probing Activations</h1>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/banner_dark.png">
+    <img src="assets/banner_light.png" width="100%" alt="ReDiverse: Restoring Diversity in Distilled Image and Video Generators by Probing Activations">
+  </picture>
+</p>
 
 <p align="center">
   Furkan Horoz<sup>1</sup>,
@@ -22,12 +27,6 @@
   <a href="https://huggingface.co/ReDiverse/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
 </p>
-
-<p align="center">
-  <img src="assets/teaser.jpg" width="100%" alt="Seed-matched samples of the 4-step student and ReDiverse on SDXL, SD3, Wan 2.1 and MiniMax-H3">
-</p>
-<p align="center"><em>For a fixed prompt the 4-step student repeats one composition; ReDiverse, from the same seeds, varies pose,
-distance, style, setting and viewpoint. More examples are on the <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 **TL;DR.** Few-step distilled students lose sample diversity. Probing their activations shows why: the student keeps
 the teacher's activation variance across seeds but squeezes it into far fewer directions, starting at one block in the
@@ -93,6 +92,27 @@ commands that regenerate them.
 
 <table>
   <tr>
+    <td align="center" width="50%"><img src="assets/sdxl_dog.jpg" width="100%" alt="SDXL, six seed-matched samples of the student and ReDiverse for a dog prompt"></td>
+    <td align="center" width="50%"><img src="assets/sdxl_parrot.jpg" width="100%" alt="SDXL, six seed-matched samples of the student and ReDiverse for a parrot prompt"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>SDXL: <i>"a photo of a dog"</i></sub></td>
+    <td align="center"><sub>SDXL: <i>"a parrot"</i></sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/sd3_backpack.jpg" width="100%" alt="SD3, six seed-matched samples of the student and ReDiverse for a backpack prompt"></td>
+    <td align="center"><img src="assets/sd3_bed.jpg" width="100%" alt="SD3, six seed-matched samples of the student and ReDiverse for a bed prompt"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>SD3: <i>"a photo of a backpack"</i></sub></td>
+    <td align="center"><sub>SD3: <i>"a photo of a bed"</i></sub></td>
+  </tr>
+</table>
+<p align="center"><em>Each tile is one seed, at the same position in both columns. The student repeats one close-up or one
+studio shot; ReDiverse varies the breed, the framing, the style and the scene.</em></p>
+
+<table>
+  <tr>
     <td align="center" width="50%"><img src="assets/wan_dog.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for a dog prompt"></td>
     <td align="center" width="50%"><img src="assets/wan_astronaut.webp" width="100%" alt="Wan 2.1, three seed-matched clips of the student and ReDiverse for an astronaut prompt"></td>
   </tr>
@@ -110,7 +130,8 @@ commands that regenerate them.
   </tr>
 </table>
 <p align="center"><em>Each row is one seed, the same for both columns. The student repeats one shot (the same park, the same
-top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera and the subject.</em></p>
+top-down runway, the same crowd of penguins); ReDiverse changes the setting, the camera and the subject. More examples are on the
+<a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 ## 📦 Model zoo
 
