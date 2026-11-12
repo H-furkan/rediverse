@@ -25,13 +25,17 @@ which needs the system `ffmpeg` with libx264. Data go to `data/minimax-h3/` (`RE
 outputs to `outputs/minimax-h3/` (`REDIVERSE_OUT`). Every default reproduces the paper's
 artifacts. GPU figures below are for 80 GB H100s.
 
+Before downloading or running MiniMax-H3, check that the territory and terms of the MiniMax H3 Community
+License allow your use.
+
 ## Generation
 
-The MiniMax-H3 ReDiverse-FT adapter is not distributed on the Hugging Face Hub. Train it and
-convert it first (see [Training ReDiverse-FT](#training-rediverse-ft)); the `rediverse_ft` and
-`rediverse` arms then take it with `--adapter`, either the directory written by
-`h3.convert_weights` or the `rediverse_ft.safetensors` file in it. The `teacher`, `student` and
-`rediverse_tf` arms need no adapter.
+The MiniMax-H3 ReDiverse-FT adapter is not released: the MiniMax H3 Community License limits use and
+distribution to its Applicable Territory, which excludes the EU, the UK, the Republic of Korea and the
+USA, and an adapter trained on it is a Model Derivative (a work based on MiniMax H3). Train it and convert it first (see
+[Training ReDiverse-FT](#training-rediverse-ft)); the `rediverse_ft` and `rediverse` arms then take it
+with `--adapter`, either the directory written by `h3.convert_weights` or the
+`rediverse_ft.safetensors` file in it. The `teacher`, `student` and `rediverse_tf` arms need no adapter.
 
 The text encoder (Qwen3-VL), the transformer and the video VAE each need most of an 80 GB GPU, so
 benchmark generation runs in three phases. Each phase resumes where it stopped, and several

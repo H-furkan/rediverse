@@ -18,8 +18,6 @@ FACTORS = {                         # slug -> factor text handed to TPIPS
     "camera": "the camera viewpoint and framing",
     "lighting": "lighting and color",
 }
-ASPECTS = ("subject", "background", "lighting", "camera")
-TP_ORDER = ("overall",) + ASPECTS   # the five values averaged into the paper's TP column
 
 
 def load_model(device: str = "cuda"):

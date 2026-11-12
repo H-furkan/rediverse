@@ -1,6 +1,6 @@
 # Reproducing ReDiverse
 
-The full reference for this repository: environments, every command behind the paper's tables and figures, the released weights, activation probing, the repository layout and the licenses. The [README](../README.md) has the short version.
+The full reference for this repository: environments, the commands behind the paper's main comparison, design-choice and ablation tables and probe results, the released weights, activation probing, the repository layout and the licenses. Not included: the baselines (Noise Optimization, DP-DMD, DFD), the user study and the VLM-as-a-judge study, the comparison of two MiniMax-H3 students (Tab. 6, FastVideo and Turbo), the paired comparison with the student (win rates and sign test) and the SAM 3 foreground and background diversity. The [README](../README.md) has the short version.
 
 ## Contents
 
@@ -52,6 +52,8 @@ Requirements:
   themselves). SD3-Medium is gated: accept its license on the Hub and run `hf auth login` first.
 - `REDIVERSE_DATA` (default `./data`) and `REDIVERSE_OUT` (default `./outputs`) relocate data and
   outputs. Run every command from the repository root.
+- `REDIVERSE_HF_REPO` (default `ReDiverse/ReDiverse`) sets the Hub repository the released adapters
+  are downloaded from, e.g. a fork or mirror with the same layout.
 
 ## Quickstart
 
@@ -97,7 +99,8 @@ python -m wan.generate --arm rediverse --prompt "a corgi surfing a wave at sunse
 ```
 
 **MiniMax-H3** (`video` environment), training-free ReDiverse-TF. The directions take about one
-GPU-hour and 30 GB of host RAM on the first call for a prompt (a 3.2 GB file).
+GPU-hour and 30 GB of host RAM on the first call for a prompt (a 3.2 GB file). Before downloading or
+running MiniMax-H3, check that the territory and terms of the MiniMax H3 Community License allow your use.
 
 ```bash
 python -m h3.generate --arm rediverse_tf --prompt "a corgi running on the beach at sunset" --num-samples 4 --device cuda:0
@@ -115,17 +118,20 @@ The ReDiverse-FT adapters are on the Hugging Face Hub at
 
 | Backbone | Student | Teacher | File | Size | License |
 |---|---|---|---|---:|---|
-| SDXL | [tianweiy/DMD2](https://huggingface.co/tianweiy/DMD2) (4-step UNet) | [stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | `sdxl/rediverse_ft.safetensors` | 216 MB | CC BY-NC 4.0 (non-commercial), with the use restrictions of Open RAIL++-M |
+| SDXL | [tianweiy/DMD2](https://huggingface.co/tianweiy/DMD2) (4-step UNet) | [stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | `sdxl/rediverse_ft.safetensors` | 216 MB | CC BY-NC-SA 4.0 (non-commercial), with the use restrictions of Open RAIL++-M |
 | SD3 | [Luo-Yihong/TDM_sd3_lora](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | [stabilityai/stable-diffusion-3-medium-diffusers](https://huggingface.co/stabilityai/stable-diffusion-3-medium-diffusers) | `sd3/rediverse_ft.safetensors` | 89 MB | Stability AI Community License |
 | Wan 2.1 | [lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | [Wan-AI/Wan2.1-T2V-14B-Diffusers](https://huggingface.co/Wan-AI/Wan2.1-T2V-14B-Diffusers) | `wan2.1/rediverse_ft.safetensors` | 445 MB | Apache-2.0 |
 
 Each file holds the fp32 LoRA tensors (rank 32, alpha 32) of one adapter under
 `<module>.lora_A.weight` / `<module>.lora_B.weight`, with module paths inside the student's denoiser,
 plus string metadata; the `config.json` beside it lists the adapted modules, the base models with
-their pinned revisions and the recipe. The `sdxl/` and `sd3/` folders also hold the license texts of
-their base models, and `sd3/` a `NOTICE` file (see [License](#license)). ReDiverse-TF needs no
+their pinned revisions and the recipe. Each folder also holds the license texts that apply to it
+and a `NOTICE` file crediting its base models (see [License](#license)). ReDiverse-TF needs no
 weights: its directions are estimated per prompt by the code. The MiniMax-H3 adapter is not
-distributed; [`h3/`](../h3/README.md) trains and converts it locally.
+released: the MiniMax H3 Community License limits use and distribution to its Applicable
+Territory, which excludes the EU, the UK, the Republic of Korea and the USA, and an adapter trained
+on it is a Model Derivative (a work based on MiniMax H3); [`h3/`](../h3/README.md) trains and
+converts it locally.
 
 ## Probing the collapse
 
@@ -179,7 +185,10 @@ of prompt `p` is seeded `1_000_000 + p * 100003 + i` in both arms. Activations a
 host in the model's dtype and the Gram is accumulated in float64 on the GPU; `--ram-gb` (default
 256) caps the staging memory, and blocks that do not fit are probed in further passes over the same
 noises, which leaves the results unchanged. The video backbones stage 40-200 M values per block and
-noise, so they need a large host or a smaller `--n`.
+noise, so they need a large host or a smaller `--n`. A block larger than `--ram-gb` is staged on its own
+whatever the budget: one MiniMax-H3 block at the default N = 1000 is 1000 x 37,296 x 5376 bf16 values,
+about 400 GB, so each `h3.probe` worker needs at least that much free host RAM. `scripts/h3.sh probe`
+starts one worker per GPU; on a smaller host give it fewer `GPUS` (one worker at a time) or lower `--n`.
 
 ## Reproducing the paper
 
@@ -379,15 +388,19 @@ SDXL training runs on [NVIDIA FastGen](https://github.com/NVlabs/FastGen) (Apach
 file is modified, FastGen's `LICENSE` and `licenses/` stay in place, and the added files are listed
 in `REDIVERSE_OVERLAY.md` inside the checkout.
 
-The released adapters follow the licenses of their base models. The SDXL adapter is trained on DMD2
-(CC BY-NC 4.0) and released for non-commercial use under CC BY-NC 4.0, together with the use-based
-restrictions of Attachment A of the CreativeML Open RAIL++-M License of SDXL, whose text ships next
-to it as `sdxl/LICENSE-OpenRAIL++-M.md`. The SD3 adapter is a Derivative Work of Stable Diffusion 3
-Medium under the Stability AI Community License, the license of
-`stabilityai/stable-diffusion-3-medium`; it ships with that license as `sd3/LICENSE.md` and with a
-`sd3/NOTICE` file. Powered by Stability AI.
-The Wan 2.1 adapter is Apache-2.0, like Wan 2.1, lightx2v and the Perflow LoRA. MiniMax-H3 is
-distributed under the MiniMax H3 Community License, which also covers adapters trained on it.
+The released adapters follow the licenses of their base models. The SDXL adapter is trained on DMD2,
+which is released under CC BY-NC-SA 4.0, so the adapter is released for non-commercial use under
+CC BY-NC-SA 4.0 (`sdxl/LICENSE-CC-BY-NC-SA-4.0.md`); the SDXL base weights it runs with remain subject
+to the use-based restrictions of Attachment A of the CreativeML Open RAIL++-M License, whose text
+ships next to it as `sdxl/LICENSE-OpenRAIL++-M.md`. The SD3 adapter is a Derivative Work of Stable
+Diffusion 3 Medium under the Stability AI Community License, the license of
+`stabilityai/stable-diffusion-3-medium` since July 5, 2024; it ships with that license as
+`sd3/LICENSE.md` and with a `sd3/NOTICE` file. Powered by Stability AI.
+The Wan 2.1 adapter is Apache-2.0 (`wan2.1/LICENSE.txt`), like Wan 2.1, lightx2v and the Perflow LoRA.
+MiniMax-H3 is distributed under the MiniMax H3 Community License, which limits use and distribution
+to its Applicable Territory (the EU, the UK, the Republic of Korea and the USA are excluded) and also
+covers adapters trained on MiniMax-H3, as works based on it; the MiniMax-H3 adapter is therefore
+not released.
 
 The evaluation prompts come from GenEval (MIT) and VBench (Apache-2.0);
 [`prompts/README.md`](../prompts/README.md) gives their sources and license notices. The `tpips`

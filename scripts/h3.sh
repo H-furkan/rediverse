@@ -8,7 +8,10 @@
 #   directions   ReDiverse-TF directions (one worker per GPU)
 #   generate     latents of the selected arms (one worker per GPU), then mp4s
 #   probe        activation probing of teacher and student on the paper's probe prompts (one worker
-#                per GPU), then the per-block report (video env; PY_VIDEO, PROBE_RAM_GB per worker, default 96)
+#                per GPU), then the per-block report (video env; PY_VIDEO, PROBE_RAM_GB per worker, default 96).
+#                One MiniMax-H3 block at N = 1000 is 1000 x 37,296 x 5376 bf16 values (about 400 GB) and is
+#                staged whole whatever PROBE_RAM_GB is, so each worker needs at least ~400 GB of free host
+#                RAM; on a smaller host list fewer GPUS (e.g. GPUS=0 runs one worker at a time).
 #
 # GPUS lists the devices to use (default 0 1 2 3 4 5 6 7); PY_VIDEO the interpreter of the video
 # environment (default python); ARMS the arms to generate (default all five). ADAPTER is the

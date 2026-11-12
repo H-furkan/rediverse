@@ -25,9 +25,9 @@ python3.10 -m venv venvs/vbench && venvs/vbench/bin/pip install --no-deps -r env
 ```
 
 Each file lists the complete package set of its reference environment, so it is installed with
-`--no-deps`: two of the reference environments run package versions newer than a dependency
-declares (`image-reward` 1.5 declares `timm==0.6.13`, `opencv-python-headless` 5.0 declares
-`numpy>=2`), which a dependency resolver would reject. The CUDA 12.6 files fetch torch from
+`--no-deps`: two of the reference environments violate a dependency's declared pins (`image-reward`
+1.5 declares `timm==0.6.13`, `opencv-python-headless` 5.0 declares `numpy>=2`), which a dependency
+resolver would reject. The CUDA 12.6 files fetch torch from
 `https://download.pytorch.org/whl/cu126` (an `--extra-index-url` line at the top of each file);
 `requirements-train.txt` uses the PyPI wheels, which are the CUDA 13.0 builds.
 

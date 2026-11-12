@@ -231,6 +231,8 @@ def call(model, lat, emb, t_val: float, device):
                      encoder_hidden_states=emb.expand(b, -1, -1), return_dict=False)[0]
 
 
+# Adapted from huggingface/diffusers WanTransformer3DModel.forward (Apache-2.0,
+# Copyright 2025 The Wan Team and The HuggingFace Team).
 def _prologue(model, hidden_states, timestep, encoder_hidden_states):
     """WanTransformer3DModel.forward up to the first block (assert_truncation_matches checks it)."""
     rotary_emb = model.rope(hidden_states)

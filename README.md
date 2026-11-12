@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <sup>1</sup>University of Illinois Urbana-Champaign &nbsp;&nbsp; <sup>2</sup>fal &nbsp;&nbsp; <sup>3</sup>Johns Hopkins University<br>
+  <sup>1</sup>University of Illinois at Urbana-Champaign &nbsp;&nbsp; <sup>2</sup>fal &nbsp;&nbsp; <sup>3</sup>Johns Hopkins University<br>
   <b>Preprint, 2026</b><br>
   <sub><sup>†</sup>Equal advising.</sub>
 </p>
@@ -119,10 +119,14 @@ generators below download them on first use. ReDiverse-TF needs no weights.
 
 | Backbone | 4-step student | Adapter | Size | License |
 |---|---|---|---:|---|
-| SDXL | [DMD2](https://huggingface.co/tianweiy/DMD2) | 🤗 [`sdxl/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sdxl) | 216 MB | CC BY-NC 4.0 + Open RAIL++-M restrictions |
+| SDXL | [DMD2](https://huggingface.co/tianweiy/DMD2) | 🤗 [`sdxl/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sdxl) | 216 MB | CC BY-NC-SA 4.0 + Open RAIL++-M restrictions |
 | SD3 | [TDM](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | 🤗 [`sd3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sd3) | 89 MB | Stability AI Community License |
 | Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
 | MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | trained locally with [`h3/`](h3/README.md) | – | MiniMax H3 Community License |
+
+The MiniMax-H3 adapter is not released: the MiniMax H3 Community License limits use and distribution to its
+Applicable Territory, which excludes the EU, the UK, the Republic of Korea and the USA, and an adapter trained on it is a
+Model Derivative (a work based on MiniMax H3).
 
 ## ⚙️ Setup
 
@@ -149,6 +153,9 @@ python -m wan.generate  --arm rediverse --prompt "a corgi surfing a wave at suns
 python -m h3.generate   --arm rediverse_tf --prompt "a corgi running on the beach at sunset" --num-samples 4  # video env
 ```
 
+Before downloading or running MiniMax-H3, check that the territory and terms of the MiniMax H3 Community License allow
+your use.
+
 The TF arms first estimate the prompt's teacher directions (about 15 s on SDXL and SD3, 15 min on Wan 2.1, one
 GPU-hour on MiniMax-H3) and cache them next to the samples. Each backbone README ([`sdxl/`](sdxl/README.md),
 [`sd3/`](sd3/README.md), [`wan/`](wan/README.md), [`h3/`](h3/README.md)) documents its main options;
@@ -167,8 +174,9 @@ python -m rediverse.probe_report --backbone sdxl --plot sdxl_probe.png
 
 The SDXL probe stages about 184 GB of activations in host RAM; on a smaller host add e.g. `--ram-gb 64` (more passes
 over the same noises, same values). `sd3.probe`, `wan.probe` and `h3.probe` work the same way; report them with
-`rediverse.probe_report --backbone sd3 | wan2.1 | minimax-h3`. Over the paper's 100 prompts the SDXL probe reproduces
-Tab. 1 exactly (participation ratio 0.40, total variance 1.63, concentration 4.76).
+`rediverse.probe_report --backbone sd3 | wan2.1 | minimax-h3`. All four probes, including the image ones, run in the
+`video` environment. Over the paper's 100 prompts the SDXL probe reproduces Tab. 1 exactly (participation ratio 0.40,
+total variance 1.63, concentration 4.76).
 
 ## 🏋️ Training and 📊 evaluation
 
@@ -185,14 +193,18 @@ PY_TRAIN=venvs/train/bin/python PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/
 PY_VIDEO=venvs/video/bin/python bash scripts/h3.sh encode bank train directions generate
 ```
 
-Without `ADAPTER`, `generate` uses the released adapter from the Hub. [`scripts/README.md`](scripts/README.md) lists the
-stages and variables of every driver. The image and video metrics and the table scripts are in [`evaluation/`](evaluation/README.md). Every command behind
-the paper's numbers, with GPU times, is in [`docs/REPRODUCE.md`](docs/REPRODUCE.md).
+Without `ADAPTER`, `generate` uses the released adapter from the Hub, except on MiniMax-H3, where it uses the `train`
+stage's output. [`scripts/README.md`](scripts/README.md) lists the stages and variables of every driver. The image and
+video metrics and the table scripts are in [`evaluation/`](evaluation/README.md). The commands behind the main
+comparison, the design-choice and ablation tables and the probe results, with GPU times, are in
+[`docs/REPRODUCE.md`](docs/REPRODUCE.md). Not included: the baselines (Noise Optimization, DP-DMD, DFD), the user study
+and the VLM-as-a-judge study, the comparison of two MiniMax-H3 students (Tab. 6, FastVideo and Turbo), the paired
+comparison with the student (win rates and sign test) and the SAM 3 foreground and background diversity.
 
 ## 📄 License
 
 The code is released under the [Apache License 2.0](LICENSE). The adapters follow the licenses of their base models:
-SDXL CC BY-NC 4.0 with the Open RAIL++-M use restrictions, SD3 the Stability AI Community License, Wan 2.1 Apache-2.0;
+SDXL CC BY-NC-SA 4.0 with the Open RAIL++-M use restrictions, SD3 the Stability AI Community License, Wan 2.1 Apache-2.0;
 MiniMax-H3 is distributed under the MiniMax H3 Community License. Details are in [`docs/REPRODUCE.md`](docs/REPRODUCE.md#license).
 
 ## 🙏 Acknowledgements
@@ -201,17 +213,19 @@ This work builds on [diffusers](https://github.com/huggingface/diffusers), [NVID
 and the public teachers and students it studies: [SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)
 with [DMD2](https://github.com/tianweiy/DMD2), [SD3-Medium](https://huggingface.co/stabilityai/stable-diffusion-3-medium)
 with [TDM](https://github.com/Luo-Yihong/TDM), [Wan 2.1](https://github.com/Wan-Video/Wan2.1) with
-[lightx2v](https://github.com/ModelTC/LightX2V), and [MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) with
+[lightx2v](https://github.com/ModelTC/LightX2V) and the
+[Perflow CFG5-to-CFG1 LoRA](https://huggingface.co/Perflow-Shuai/Wan2.1-T2V-14B-CFG5-to-CFG1-50Step-LoRA-r128-iter500),
+the CFG-distilled Wan 2.1 teacher used for the training targets, and [MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) with
 [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo). Prompts come from [GenEval](https://github.com/djghosh13/geneval)
 and [VBench](https://github.com/Vchitect/VBench); the training captions from [DiffusionDB](https://github.com/poloclub/diffusiondb).
 
 ## 📚 Citation
 
 ```bibtex
-@article{horoz2026rediverse,
-  title   = {Restoring Diversity in Distilled Image and Video Generators by Probing Activations},
-  author  = {Horoz, Furkan and Kara, Ozgur and Oktay, Kaan and Akan, Adil Kaan and Kara, Atakan and Bhattad, Anand and Rehg, James Matthew},
-  journal = {arXiv preprint},
-  year    = {2026}
+@misc{horoz2026rediverse,
+  title  = {Restoring Diversity in Distilled Image and Video Generators by Probing Activations},
+  author = {Horoz, Furkan and Kara, Ozgur and Oktay, Kaan and Akan, Adil Kaan and Kara, Atakan and Bhattad, Anand and Rehg, James Matthew},
+  year   = {2026},
+  url    = {https://rediverse-distillation.github.io/rediverse-distillation/}
 }
 ```

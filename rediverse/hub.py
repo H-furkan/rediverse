@@ -12,6 +12,7 @@ from __future__ import annotations
 import os
 
 REDIVERSE_HF_REPO = "ReDiverse/ReDiverse"
+HF_REVISION = "2254493cfcd04fc1d493f2e4240709a5284833a2"   # ReDiverse/ReDiverse commit of the released adapters
 ADAPTER_FILE = "rediverse_ft.safetensors"
 # package name -> Hub subfolder
 BACKBONES = {"sdxl": "sdxl", "sd3": "sd3", "wan": "wan2.1", "h3": "minimax-h3"}
@@ -26,18 +27,14 @@ def hub_backbone(name: str) -> str:
     raise ValueError(f"unknown backbone {name!r}; expected one of {sorted(BACKBONES)} or {sorted(BACKBONES.values())}")
 
 
-def adapter_filename(backbone: str) -> str:
-    """'<backbone>/rediverse_ft.safetensors' inside the Hub repository."""
-    return f"{hub_backbone(backbone)}/{ADAPTER_FILE}"
-
-
 def resolve_adapter(path_or_default, backbone: str, repo_id: str = None, revision: str = None) -> str:
     """Local path of the ReDiverse-FT adapter of `backbone`.
 
     `path_or_default` may be a .safetensors file, a directory laid out like the Hub repository
     (<dir>/<backbone>/rediverse_ft.safetensors) or holding rediverse_ft.safetensors directly,
     or None / "" / "hf" to download from the Hub (repo `repo_id`, default REDIVERSE_HF_REPO or
-    the REDIVERSE_HF_REPO environment variable) into the user's Hugging Face cache."""
+    the REDIVERSE_HF_REPO environment variable; revision `revision`, default HF_REVISION) into the
+    user's Hugging Face cache. The MiniMax-H3 adapter is not on the Hub and needs a local path."""
     sub = hub_backbone(backbone)
     if path_or_default and path_or_default != "hf":
         p = os.path.expanduser(str(path_or_default))
@@ -48,9 +45,12 @@ def resolve_adapter(path_or_default, backbone: str, repo_id: str = None, revisio
                 if os.path.isfile(cand):
                     return cand
         raise FileNotFoundError(f"no ReDiverse-FT adapter for {sub} at {p}")
+    if sub == BACKBONES["h3"]:
+        raise ValueError("the MiniMax-H3 ReDiverse-FT adapter is not on the Hugging Face Hub: train it with "
+                         "h3.train, convert it with h3.convert_weights and pass its local path")
     from huggingface_hub import hf_hub_download
     repo = repo_id or os.environ.get("REDIVERSE_HF_REPO", REDIVERSE_HF_REPO)
-    return hf_hub_download(repo, filename=f"{sub}/{ADAPTER_FILE}", revision=revision)
+    return hf_hub_download(repo, filename=f"{sub}/{ADAPTER_FILE}", revision=revision or HF_REVISION)
 
 
 def load_lora_safetensors(path: str):

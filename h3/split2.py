@@ -8,6 +8,8 @@ stops the forward). forward_to_block is the model's own block loop with one tran
 the cut; autograd differentiates across devices, so the gradients of the LoRA parameters on dev0
 are unchanged. The result equals the single-device forward up to bf16 non-associativity.
 """
+# forward_to_block adapted from huggingface/diffusers MiniMaxH3Transformer3DModel.forward
+# (Apache-2.0, Copyright 2025 The MiniMax Team and The HuggingFace Team).
 from __future__ import annotations
 
 import torch

@@ -18,6 +18,9 @@ Conventions of this model:
 The sampler is the diffusers 0.40.0 modular MiniMax-H3 denoise loop unrolled (row plan,
 scheduler step in closed form, unpatchify, video decode).
 """
+# The sampler (Schedule, pack/unpack, forward_at, euler_blend, sample) is adapted from the
+# huggingface/diffusers modular MiniMax-H3 pipeline, diffusers 0.40.0 (Apache-2.0, Copyright 2026 The
+# MiniMax and HuggingFace Teams).
 from __future__ import annotations
 
 import functools

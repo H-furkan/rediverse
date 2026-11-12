@@ -10,7 +10,7 @@ every file name and seed rule. An index file holds comma-separated prompt indice
 | `geneval_553.txt` | the 553 GenEval prompts: the `prompt` field of every entry of GenEval's evaluation metadata file, in file order | image generation and evaluation (`<idx:03d>_s<seed>.png`) |
 | `geneval_subset100.txt` | 100 indices into `geneval_553.txt`: `round(linspace(0, 552, 98))` together with 27 and 62 | the four TPIPS aspects of the image tables; activation probing of SDXL and SD3 (`sdxl.probe`, `sd3.probe`) |
 | `geneval_subset50.txt` | the first 50 indices of `geneval_subset100.txt` | the SD3 ablation table and the design-choice tables (supplementary) |
-| `h3_train_geneval_ids.txt` | 20 indices into `geneval_553.txt` | MiniMax-H3 ReDiverse-FT training prompts |
+| `h3_train_geneval_ids.txt` | 20 indices into `geneval_553.txt`, the same as `probe_video20.txt` | MiniMax-H3 ReDiverse-FT training prompts |
 | `probe_video20.txt` | 20 indices into `geneval_553.txt`: 13, 27 and 199 together with 17 evenly spaced indices of `geneval_subset100.txt` | activation probing of the video backbones (`wan.probe`, `h3.probe`); the image backbones probe `geneval_subset100.txt` |
 | `vbench_300.txt` | 300 VBench prompts | video generation and evaluation (`<prompt>-<k>.mp4`) |
 | `vbench_subset100.txt` | indices 0, 3, 6, ..., 297 into `vbench_300.txt` | the four TPIPS aspects of the video tables |

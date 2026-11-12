@@ -25,7 +25,10 @@ they change to the repository root. Each stage runs the commands documented in t
 - `probe` runs the teacher and then the student on the paper's probe prompts, one shard per device,
   and writes `outputs/<backbone>/probe/report.{tsv,png}`. `PROBE_RAM_GB` (default 96) is each
   worker's staging budget for activations, so the host needs about `PROBE_RAM_GB` x the number of
-  devices of free memory.
+  devices of free memory. A block larger than the budget is staged whole: one MiniMax-H3 block at the
+  default N = 1000 is about 400 GB (1000 x 37,296 x 5376 bf16 values), so each `h3.sh probe` worker
+  needs at least that much free host RAM whatever `PROBE_RAM_GB` is; on a smaller host list fewer
+  `GPUS` (e.g. `GPUS=0` runs the workers one at a time).
 - `REDIVERSE_DATA` / `REDIVERSE_OUT` relocate data and outputs, as for the Python entry points.
 
 Example:
