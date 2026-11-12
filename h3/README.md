@@ -30,12 +30,12 @@ License allow your use.
 
 ## Generation
 
-The MiniMax-H3 ReDiverse-FT adapter is not released: the MiniMax H3 Community License limits use and
-distribution to its Applicable Territory, which excludes the EU, the UK, the Republic of Korea and the
-USA, and an adapter trained on it is a Model Derivative (a work based on MiniMax H3). Train it and convert it first (see
-[Training ReDiverse-FT](#training-rediverse-ft)); the `rediverse_ft` and `rediverse` arms then take it
-with `--adapter`, either the directory written by `h3.convert_weights` or the
-`rediverse_ft.safetensors` file in it. The `teacher`, `student` and `rediverse_tf` arms need no adapter.
+The MiniMax-H3 ReDiverse-FT adapter is on the Hugging Face Hub under `minimax-h3/`, released for research
+purposes; its use is governed by the MiniMax H3 Community License, whose Applicable Territory excludes the EU, the UK, the
+Republic of Korea and the USA; check that the license allows your use before downloading or running
+MiniMax-H3 or the adapter. The `rediverse_ft` and `rediverse` arms download it by default; `--adapter`
+takes a local one instead, either the directory written by `h3.convert_weights` (see
+[Training ReDiverse-FT](#training-rediverse-ft)) or the `rediverse_ft.safetensors` file in it. The `teacher`, `student` and `rediverse_tf` arms need no adapter.
 
 The text encoder (Qwen3-VL), the transformer and the video VAE each need most of an 80 GB GPU, so
 benchmark generation runs in three phases. Each phase resumes where it stopped, and several
@@ -51,7 +51,7 @@ python -m h3.generate --encode --device cuda:0
 python -m h3.estimate_directions --device cuda:0
 
 # 3. latents, 10 clips per prompt: teacher, student, rediverse_ft, rediverse_tf, rediverse
-python -m h3.generate --arm rediverse --adapter outputs/minimax-h3/train/rediverse_ft --device cuda:0
+python -m h3.generate --arm rediverse --device cuda:0
 
 # 4. mp4s -> outputs/minimax-h3/<arm>/videos/<prompt>-<k>.mp4
 python -m h3.generate --arm rediverse --decode --device cuda:0
@@ -76,8 +76,7 @@ of the full prompt:
 
 ```bash
 python -m h3.generate --prompt "a corgi running on the beach at sunset" --arm rediverse_tf --num-samples 4 --device cuda:0
-python -m h3.generate --prompt "a corgi running on the beach at sunset" --arm rediverse --num-samples 4 \
-    --adapter outputs/minimax-h3/train/rediverse_ft --device cuda:0
+python -m h3.generate --prompt "a corgi running on the beach at sunset" --arm rediverse --num-samples 4 --device cuda:0
 ```
 
 The TF arms read the prompt's directions from `--directions FILE`, else from

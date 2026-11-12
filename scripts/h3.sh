@@ -14,9 +14,9 @@
 #                RAM; on a smaller host list fewer GPUS (e.g. GPUS=0 runs one worker at a time).
 #
 # GPUS lists the devices to use (default 0 1 2 3 4 5 6 7); PY_VIDEO the interpreter of the video
-# environment (default python); ARMS the arms to generate (default all five). ADAPTER is the
-# ReDiverse-FT adapter of the rediverse_ft and rediverse arms (default the train stage's output,
-# outputs/minimax-h3/train/rediverse_ft); the MiniMax-H3 adapter is not on the Hugging Face Hub.
+# environment (default python); ARMS the arms to generate (default all five). ADAPTER is
+# passed to h3.generate --adapter (default hf, the Hugging Face Hub; after the train stage use
+# outputs/minimax-h3/train/rediverse_ft).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -24,7 +24,7 @@ PY=${PY_VIDEO:-python}
 read -r -a G <<< "${GPUS:-0 1 2 3 4 5 6 7}"
 read -r -a ARM_LIST <<< "${ARMS:-student rediverse_ft rediverse_tf rediverse teacher}"
 OUT=${REDIVERSE_OUT:-outputs}
-ADAPTER=${ADAPTER:-$OUT/minimax-h3/train/rediverse_ft}
+ADAPTER=${ADAPTER:-hf}
 export PYTORCH_CUDA_ALLOC_CONF=${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
 PY_PROBE=${PY_VIDEO:-python}
 PROBE_RAM_GB=${PROBE_RAM_GB:-96}
@@ -60,10 +60,6 @@ for stage in "$@"; do
             ;;
         generate)
             for arm in "${ARM_LIST[@]}"; do
-                if [[ "$arm" == rediverse_ft || "$arm" == rediverse ]] && [[ ! -e "$ADAPTER" ]]; then
-                    echo "no ReDiverse-FT adapter at $ADAPTER: run the train stage or set ADAPTER" >&2
-                    exit 2
-                fi
                 REVERSE_FLAG="--reverse" per_gpu h3.generate --arm "$arm" --adapter "$ADAPTER"
                 REVERSE_FLAG="--reverse" per_gpu h3.generate --arm "$arm" --decode
             done

@@ -53,7 +53,7 @@ supported by the user study.
 
 ## 📰 Updates
 
-- **[11/2026]** Code, the activation probe and the ReDiverse-FT adapters for SDXL, SD3 and Wan 2.1 on
+- **[11/2026]** Code, the activation probe and the ReDiverse-FT adapters for SDXL, SD3, Wan 2.1 and MiniMax-H3 on
   🤗 [Hugging Face](https://huggingface.co/ReDiverse/ReDiverse).
 
 ## 🔍 Method
@@ -122,11 +122,11 @@ generators below download them on first use. ReDiverse-TF needs no weights.
 | SDXL | [DMD2](https://huggingface.co/tianweiy/DMD2) | 🤗 [`sdxl/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sdxl) | 216 MB | CC BY-NC-SA 4.0 + Open RAIL++-M restrictions |
 | SD3 | [TDM](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | 🤗 [`sd3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sd3) | 89 MB | Stability AI Community License |
 | Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
-| MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | trained locally with [`h3/`](h3/README.md) | – | MiniMax H3 Community License |
+| MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | 🤗 [`minimax-h3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/minimax-h3) | 612 MB | MiniMax H3 Community License |
 
-The MiniMax-H3 adapter is not released: the MiniMax H3 Community License limits use and distribution to its
-Applicable Territory, which excludes the EU, the UK, the Republic of Korea and the USA, and an adapter trained on it is a
-Model Derivative (a work based on MiniMax H3).
+The MiniMax-H3 adapter is released for research purposes. Its use is governed by the MiniMax H3 Community License,
+whose Applicable Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the license allows
+your use before downloading or running MiniMax-H3 or the adapter.
 
 ## ⚙️ Setup
 
@@ -150,7 +150,7 @@ gated on the Hub: accept its license and run `hf auth login` first.
 python -m sdxl.generate --arm rediverse --prompt "a photo of a fox in the snow" --num-samples 4    # image env
 python -m sd3.generate  --arm rediverse --prompt "a photo of a fox in the snow" --num-samples 4    # train env
 python -m wan.generate  --arm rediverse --prompt "a corgi surfing a wave at sunset" --num-samples 4  # video env
-python -m h3.generate   --arm rediverse_tf --prompt "a corgi running on the beach at sunset" --num-samples 4  # video env
+python -m h3.generate   --arm rediverse --prompt "a corgi running on the beach at sunset" --num-samples 4  # video env
 ```
 
 Before downloading or running MiniMax-H3, check that the territory and terms of the MiniMax H3 Community License allow
@@ -190,12 +190,13 @@ PY_IMAGE=venvs/image/bin/python PY_TRAIN=venvs/train/bin/python ADAPTER=outputs/
 PY_TRAIN=venvs/train/bin/python ADAPTER=outputs/sd3/release bash scripts/sd3.sh data train directions generate
 PY_TRAIN=venvs/train/bin/python PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/wan2.1/release \
   bash scripts/wan.sh encode bank train directions generate
-PY_VIDEO=venvs/video/bin/python bash scripts/h3.sh encode bank train directions generate
+PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/minimax-h3/train/rediverse_ft \
+  bash scripts/h3.sh encode bank train directions generate
 ```
 
-Without `ADAPTER`, `generate` uses the released adapter from the Hub, except on MiniMax-H3, where it uses the `train`
-stage's output. [`scripts/README.md`](scripts/README.md) lists the stages and variables of every driver. The image and
-video metrics and the table scripts are in [`evaluation/`](evaluation/README.md). The commands behind the main
+Without `ADAPTER`, `generate` uses the released adapter from the Hub. [`scripts/README.md`](scripts/README.md) lists the
+stages and variables of every driver. The image and video metrics and the table scripts are in
+[`evaluation/`](evaluation/README.md). The commands behind the main
 comparison, the design-choice and ablation tables and the probe results, with GPU times, are in
 [`docs/REPRODUCE.md`](docs/REPRODUCE.md). Not included: the baselines (Noise Optimization, DP-DMD, DFD), the user study
 and the VLM-as-a-judge study, the comparison of two MiniMax-H3 students (Tab. 6, FastVideo and Turbo), the paired

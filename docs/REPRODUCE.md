@@ -107,9 +107,11 @@ python -m h3.generate --arm rediverse_tf --prompt "a corgi running on the beach 
 # -> outputs/minimax-h3/prompt/a_corgi_running_on_the_beach_at_sunset/rediverse_tf/00.mp4 ... 03.mp4
 ```
 
-The MiniMax-H3 ReDiverse-FT adapter is not on the Hub: its `rediverse_ft` and `rediverse` arms need
-`--adapter` with an adapter trained by `h3.train` and converted by `h3.convert_weights` (see
-[MiniMax-H3](#minimax-h3) below). Each backbone README lists the remaining options.
+The MiniMax-H3 ReDiverse-FT adapter is on the Hub under `minimax-h3/`, released for research
+purposes; its use is governed by the MiniMax H3 Community License, whose Applicable Territory
+excludes the EU, the UK, the Republic of Korea and the USA; check that the license allows your use
+before downloading or running MiniMax-H3 or the adapter. Its `rediverse_ft` and `rediverse` arms
+download it by default; `--adapter` takes a local one (see [MiniMax-H3](#minimax-h3) below). Each backbone README lists the remaining options.
 
 ## Released weights
 
@@ -121,17 +123,17 @@ The ReDiverse-FT adapters are on the Hugging Face Hub at
 | SDXL | [tianweiy/DMD2](https://huggingface.co/tianweiy/DMD2) (4-step UNet) | [stabilityai/stable-diffusion-xl-base-1.0](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | `sdxl/rediverse_ft.safetensors` | 216 MB | CC BY-NC-SA 4.0 (non-commercial), with the use restrictions of Open RAIL++-M |
 | SD3 | [Luo-Yihong/TDM_sd3_lora](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | [stabilityai/stable-diffusion-3-medium-diffusers](https://huggingface.co/stabilityai/stable-diffusion-3-medium-diffusers) | `sd3/rediverse_ft.safetensors` | 89 MB | Stability AI Community License |
 | Wan 2.1 | [lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | [Wan-AI/Wan2.1-T2V-14B-Diffusers](https://huggingface.co/Wan-AI/Wan2.1-T2V-14B-Diffusers) | `wan2.1/rediverse_ft.safetensors` | 445 MB | Apache-2.0 |
+| MiniMax-H3 | [lightx2v/Minimax-h3-Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | [MiniMaxAI/MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) | `minimax-h3/rediverse_ft.safetensors` | 612 MB | MiniMax H3 Community License |
 
 Each file holds the fp32 LoRA tensors (rank 32, alpha 32) of one adapter under
 `<module>.lora_A.weight` / `<module>.lora_B.weight`, with module paths inside the student's denoiser,
 plus string metadata; the `config.json` beside it lists the adapted modules, the base models with
 their pinned revisions and the recipe. Each folder also holds the license texts that apply to it
 and a `NOTICE` file crediting its base models (see [License](#license)). ReDiverse-TF needs no
-weights: its directions are estimated per prompt by the code. The MiniMax-H3 adapter is not
-released: the MiniMax H3 Community License limits use and distribution to its Applicable
-Territory, which excludes the EU, the UK, the Republic of Korea and the USA, and an adapter trained
-on it is a Model Derivative (a work based on MiniMax H3); [`h3/`](../h3/README.md) trains and
-converts it locally.
+weights: its directions are estimated per prompt by the code. The MiniMax-H3 adapter is
+released for research purposes; its use is governed by the MiniMax H3 Community License, whose Applicable
+Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the license
+allows your use before downloading or running MiniMax-H3 or the adapter.
 
 ## Probing the collapse
 
@@ -399,8 +401,10 @@ Diffusion 3 Medium under the Stability AI Community License, the license of
 The Wan 2.1 adapter is Apache-2.0 (`wan2.1/LICENSE.txt`), like Wan 2.1, lightx2v and the Perflow LoRA.
 MiniMax-H3 is distributed under the MiniMax H3 Community License, which limits use and distribution
 to its Applicable Territory (the EU, the UK, the Republic of Korea and the USA are excluded) and also
-covers adapters trained on MiniMax-H3, as works based on it; the MiniMax-H3 adapter is therefore
-not released.
+covers adapters trained on MiniMax-H3, as works based on it. The MiniMax-H3 adapter
+(`minimax-h3/`, with `minimax-h3/LICENSE` and `minimax-h3/NOTICE`) is released for research
+purposes; its use is governed by that license; check that it allows your use before downloading or running
+MiniMax-H3 or the adapter.
 
 The evaluation prompts come from GenEval (MIT) and VBench (Apache-2.0);
 [`prompts/README.md`](../prompts/README.md) gives their sources and license notices. The `tpips`

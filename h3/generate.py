@@ -8,8 +8,9 @@
                 sum_k alpha_k s_k u_k, alpha_k ~ U[-2, 2] (8 teacher directions of the prompt)
   rediverse     both: the ReDiverse-FT adapter and the TF offset in the first forward
 
-The ReDiverse-FT adapter of MiniMax-H3 is trained with h3.train and converted with
-h3.convert_weights; rediverse_ft and rediverse take it with --adapter. It is added as a second
+The ReDiverse-FT adapter of MiniMax-H3 is downloaded from the Hugging Face Hub (minimax-h3/), or
+taken from a local path with --adapter (e.g. one trained with h3.train and converted with
+h3.convert_weights). It is added as a second
 peft adapter beside the unfused Turbo adapter, its float32 weights cast to bfloat16; forward 1
 runs both adapters, forwards 2-3 Turbo alone.
 
@@ -18,7 +19,7 @@ phases, because the text encoder, the transformer and the video VAE do not fit o
 together. Every phase resumes and can run as several workers (clips are claimed atomically):
 
   python -m h3.generate --encode --device cuda:0                    # text contexts (h3.encode_prompts)
-  python -m h3.generate --arm rediverse --adapter <dir> --device cuda:0
+  python -m h3.generate --arm rediverse --device cuda:0
   python -m h3.generate --arm rediverse --decode --device cuda:0    # mp4s
 
 Clip k of VBench prompt i starts from randn(seed 1_000_000 + (10000 + i) * 100003 + k) in every
@@ -52,9 +53,6 @@ from rediverse.directions import N_DIR, direction_file, load_directions, matches
 from rediverse.video_io import vbench_name, write_mp4
 
 CLAIM_EXPIRY_S = 3600
-NO_HUB_ADAPTER = ("the MiniMax-H3 ReDiverse-FT adapter is not on the Hugging Face Hub: train it with "
-                  "'python -m h3.train', convert it with 'python -m h3.convert_weights --src <pth> --out-dir <dir>', "
-                  "then pass --adapter <dir or .safetensors file>")
 
 
 # ------------------------------------------------------------- ReDiverse-FT --
@@ -294,9 +292,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--arm", choices=C.ARMS)
     ap.add_argument("--device", default="cuda:0")
-    ap.add_argument("--adapter", default="",
-                    help="ReDiverse-FT adapter of the rediverse_ft and rediverse arms: a rediverse_ft.safetensors "
-                         "file or the directory holding it, written by h3.convert_weights")
+    ap.add_argument("--adapter", default=None,
+                    help="ReDiverse-FT adapter: a .safetensors file or a directory holding rediverse_ft.safetensors "
+                         "(directly or under minimax-h3/); default: download from the Hugging Face Hub")
     ap.add_argument("--n-dir", type=int, default=C.N_DIR, help="K directions injected")
     ap.add_argument("--tf-band", type=float, default=C.TF_BAND, help="alpha_k ~ U[-a, a]")
     ap.add_argument("--out-dir", default="",
@@ -329,14 +327,9 @@ def main():
         ap.error("--shard must be in [0, --num-shards)")
     a.adapter_file = None
     if a.arm in C.FT_ARMS and not (a.encode or a.decode):
-        if not a.adapter or a.adapter == "hf":
-            ap.error(f"--arm {a.arm} needs --adapter: {NO_HUB_ADAPTER}")
-        if a.adapter.endswith(".pth"):
-            ap.error(f"--adapter takes the converted adapter, not a training checkpoint: {NO_HUB_ADAPTER}")
-        try:
-            a.adapter_file = hub.resolve_adapter(a.adapter, "h3")
-        except FileNotFoundError as e:
-            ap.error(f"{e}; {NO_HUB_ADAPTER}")
+        if a.adapter and a.adapter.endswith(".pth"):
+            ap.error("--adapter takes the adapter converted by h3.convert_weights, not a training checkpoint")
+        a.adapter_file = hub.resolve_adapter(a.adapter, "h3")
     if a.prompt and a.directions and not os.path.isfile(a.directions):
         ap.error(f"--directions {a.directions}: no such file")
     if a.prompt:

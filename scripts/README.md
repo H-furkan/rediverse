@@ -16,12 +16,10 @@ they change to the repository root. Each stage runs the commands documented in t
 - `HF_HOME` must be exported for the SDXL `train` stage: FastGen reads the SDXL teacher from it.
   The other stages use the default Hugging Face cache when it is unset.
 - `ARMS` selects the arms to generate (default: all five).
-- `ADAPTER` is passed to `--adapter` of the generator. For SDXL, SD3 and Wan 2.1 it defaults to `hf`
+- `ADAPTER` is passed to `--adapter` of the generator. It defaults to `hf`
   (the Hugging Face Hub); after a `train` stage, point it at the converted adapter:
-  `outputs/sdxl/release`, `outputs/sd3/release` or `outputs/wan2.1/release`. For MiniMax-H3 it
-  defaults to `outputs/minimax-h3/train/rediverse_ft`, where the `train` stage converts the adapter,
-  since that adapter is not on the Hub; `generate` stops with a message if an FT arm is selected
-  and the adapter does not exist.
+  `outputs/sdxl/release`, `outputs/sd3/release`, `outputs/wan2.1/release` or
+  `outputs/minimax-h3/train/rediverse_ft`.
 - `probe` runs the teacher and then the student on the paper's probe prompts, one shard per device,
   and writes `outputs/<backbone>/probe/report.{tsv,png}`. `PROBE_RAM_GB` (default 96) is each
   worker's staging budget for activations, so the host needs about `PROBE_RAM_GB` x the number of

@@ -1,8 +1,7 @@
 """Released ReDiverse-FT adapters: where to find them and how to read them.
 
-The SDXL, SD3 and Wan 2.1 adapters are single safetensors files on the Hugging Face Hub,
-<REDIVERSE_HF_REPO>/<backbone>/rediverse_ft.safetensors; the MiniMax-H3 adapter has the same
-format and is read from a local path. Each file holds the generator LoRA in float32 under
+The SDXL, SD3, Wan 2.1 and MiniMax-H3 adapters are single safetensors files on the Hugging Face
+Hub, <REDIVERSE_HF_REPO>/<backbone>/rediverse_ft.safetensors. Each file holds the generator LoRA in float32 under
 keys "<module path inside the denoiser>.lora_A.weight" / ".lora_B.weight", with string
 metadata (rank, alpha, denoiser, backbone, student, teacher, anchor_block,
 active_student_steps, ...).
@@ -12,7 +11,7 @@ from __future__ import annotations
 import os
 
 REDIVERSE_HF_REPO = "ReDiverse/ReDiverse"
-HF_REVISION = "2254493cfcd04fc1d493f2e4240709a5284833a2"   # ReDiverse/ReDiverse commit of the released adapters
+HF_REVISION = "9a4deb8527b3e3234b01b579445bb93979bbf601"   # ReDiverse/ReDiverse commit of the released adapters
 ADAPTER_FILE = "rediverse_ft.safetensors"
 # package name -> Hub subfolder
 BACKBONES = {"sdxl": "sdxl", "sd3": "sd3", "wan": "wan2.1", "h3": "minimax-h3"}
@@ -34,7 +33,7 @@ def resolve_adapter(path_or_default, backbone: str, repo_id: str = None, revisio
     (<dir>/<backbone>/rediverse_ft.safetensors) or holding rediverse_ft.safetensors directly,
     or None / "" / "hf" to download from the Hub (repo `repo_id`, default REDIVERSE_HF_REPO or
     the REDIVERSE_HF_REPO environment variable; revision `revision`, default HF_REVISION) into the
-    user's Hugging Face cache. The MiniMax-H3 adapter is not on the Hub and needs a local path."""
+    user's Hugging Face cache."""
     sub = hub_backbone(backbone)
     if path_or_default and path_or_default != "hf":
         p = os.path.expanduser(str(path_or_default))
@@ -45,9 +44,6 @@ def resolve_adapter(path_or_default, backbone: str, repo_id: str = None, revisio
                 if os.path.isfile(cand):
                     return cand
         raise FileNotFoundError(f"no ReDiverse-FT adapter for {sub} at {p}")
-    if sub == BACKBONES["h3"]:
-        raise ValueError("the MiniMax-H3 ReDiverse-FT adapter is not on the Hugging Face Hub: train it with "
-                         "h3.train, convert it with h3.convert_weights and pass its local path")
     from huggingface_hub import hf_hub_download
     repo = repo_id or os.environ.get("REDIVERSE_HF_REPO", REDIVERSE_HF_REPO)
     return hf_hub_download(repo, filename=f"{sub}/{ADAPTER_FILE}", revision=revision or HF_REVISION)
