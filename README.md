@@ -209,15 +209,18 @@ MiniMax-H3 is distributed under the MiniMax H3 Community License. Details are in
 
 ## 🙏 Acknowledgements
 
+We thank [fal](https://fal.ai) for the compute grants that supported this research. The authors acknowledge the support
+of the Health Care Engineering Systems Center within the Coordinated Science Lab at UIUC.
+
 This work builds on [diffusers](https://github.com/huggingface/diffusers), [NVIDIA FastGen](https://github.com/NVlabs/FastGen)
 and the public teachers and students it studies: [SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)
 with [DMD2](https://github.com/tianweiy/DMD2), [SD3-Medium](https://huggingface.co/stabilityai/stable-diffusion-3-medium)
 with [TDM](https://github.com/Luo-Yihong/TDM), [Wan 2.1](https://github.com/Wan-Video/Wan2.1) with
-[lightx2v](https://github.com/ModelTC/LightX2V) and the
-[Perflow CFG5-to-CFG1 LoRA](https://huggingface.co/Perflow-Shuai/Wan2.1-T2V-14B-CFG5-to-CFG1-50Step-LoRA-r128-iter500),
-the CFG-distilled Wan 2.1 teacher used for the training targets, and [MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) with
-[Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo). Prompts come from [GenEval](https://github.com/djghosh13/geneval)
-and [VBench](https://github.com/Vchitect/VBench); the training captions from [DiffusionDB](https://github.com/poloclub/diffusiondb).
+[lightx2v](https://github.com/ModelTC/LightX2V), and [MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) with
+[Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo). The Wan 2.1 training targets use the
+[Perflow CFG5-to-CFG1 LoRA](https://huggingface.co/Perflow-Shuai/Wan2.1-T2V-14B-CFG5-to-CFG1-50Step-LoRA-r128-iter500)
+as the CFG-distilled teacher. Prompts come from [GenEval](https://github.com/djghosh13/geneval) and
+[VBench](https://github.com/Vchitect/VBench); the training captions from [DiffusionDB](https://github.com/poloclub/diffusiondb).
 
 ## 📚 Citation
 
