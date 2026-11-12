@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/teaser.jpg" width="80%" alt="Seed-matched samples of the 4-step student and ReDiverse on SDXL, SD3, Wan 2.1 and MiniMax-H3">
+  <img src="assets/teaser.jpg" width="100%" alt="Seed-matched samples of the 4-step student and ReDiverse on SDXL, SD3, Wan 2.1 and MiniMax-H3">
 </p>
 <p align="center"><em>For a fixed prompt the 4-step student repeats one composition; ReDiverse, from the same seeds, varies pose,
 distance, style, setting and viewpoint. More examples are on the <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
