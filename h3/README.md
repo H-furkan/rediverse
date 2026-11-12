@@ -163,5 +163,5 @@ not bitwise deterministic across runs; the first step's loss is reproduced exact
 | `convert_weights.py` | training checkpoint -> adapter file (`rediverse_ft.safetensors` + `config.json`) |
 
 `scripts/h3.sh` chains these stages over several GPUs (`bash scripts/h3.sh encode bank train directions
-generate`); its `generate` stage reads the adapter written by its `train` stage unless `ADAPTER` points
-elsewhere, and `PY_VIDEO` names the interpreter of the video environment (default `python`).
+generate`); its `generate` stage uses the released adapter from the Hub unless `ADAPTER` points elsewhere
+(after `train`: `ADAPTER=outputs/minimax-h3/train/rediverse_ft`), and `PY_VIDEO` names the interpreter of the video environment (default `python`).

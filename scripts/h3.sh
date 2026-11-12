@@ -51,6 +51,7 @@ for stage in "$@"; do
             REVERSE_FLAG="" per_gpu h3.build_targets
             ;;
         train)
+            (( ${#G[@]} >= 2 )) || { echo "train needs two GPUs in GPUS" >&2; exit 1; }
             "$PY" -m h3.train --device "cuda:${G[0]}" --dev1 "cuda:${G[1]}"
             "$PY" -m h3.convert_weights --src "$OUT/minimax-h3/train/adapters/rediverse_ft_0000200.pth" \
                 --out-dir "$OUT/minimax-h3/train/rediverse_ft"

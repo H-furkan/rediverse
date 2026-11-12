@@ -64,7 +64,7 @@ samples. They are written to `<REDIVERSE_OUT>/<backbone>/prompt/<slug>/<arm>/00.
 replaced by `_` and leading/trailing `_` removed; a slug longer than 80 characters is cut to 71
 characters and followed by `_` and an 8-character hash of the full prompt.
 
-- On SDXL, SD3 and Wan 2.1 the FT arms (`rediverse_ft`, `rediverse`) download the released
+- On every backbone the FT arms (`rediverse_ft`, `rediverse`) download the released
   ReDiverse-FT adapter from the Hub on first use; `--adapter` points them at a local file or
   directory instead.
 - The TF arms (`rediverse_tf`, `rediverse`) first estimate the prompt's teacher directions and save
@@ -110,8 +110,8 @@ python -m h3.generate --arm rediverse_tf --prompt "a corgi running on the beach 
 The MiniMax-H3 ReDiverse-FT adapter is on the Hub under `minimax-h3/`, released for research
 purposes; its use is governed by the MiniMax H3 Community License, whose Applicable Territory
 excludes the EU, the UK, the Republic of Korea and the USA; check that the license allows your use
-before downloading or running MiniMax-H3 or the adapter. Its `rediverse_ft` and `rediverse` arms
-download it by default; `--adapter` takes a local one (see [MiniMax-H3](#minimax-h3) below). Each backbone README lists the remaining options.
+before downloading or running MiniMax-H3 or the adapter. Each backbone README lists the remaining
+options.
 
 ## Released weights
 
@@ -390,7 +390,9 @@ SDXL training runs on [NVIDIA FastGen](https://github.com/NVlabs/FastGen) (Apach
 file is modified, FastGen's `LICENSE` and `licenses/` stay in place, and the added files are listed
 in `REDIVERSE_OVERLAY.md` inside the checkout.
 
-The released adapters follow the licenses of their base models. The SDXL adapter is trained on DMD2,
+The released adapters (in the Hub repository [`ReDiverse/ReDiverse`](https://huggingface.co/ReDiverse/ReDiverse),
+whose folders hold the license and NOTICE files named below) follow the licenses of their base
+models. The SDXL adapter is trained on DMD2,
 which is released under CC BY-NC-SA 4.0, so the adapter is released for non-commercial use under
 CC BY-NC-SA 4.0 (`sdxl/LICENSE-CC-BY-NC-SA-4.0.md`); the SDXL base weights it runs with remain subject
 to the use-based restrictions of Attachment A of the CreativeML Open RAIL++-M License, whose text

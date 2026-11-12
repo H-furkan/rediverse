@@ -174,7 +174,7 @@ python -m rediverse.probe_report --backbone sdxl --plot sdxl_probe.png
 The SDXL probe stages about 184 GB of activations in host RAM; on a smaller host add e.g. `--ram-gb 64` (more passes
 over the same noises, same values). `sd3.probe`, `wan.probe` and `h3.probe` work the same way; report them with
 `rediverse.probe_report --backbone sd3 | wan2.1 | minimax-h3`. All four probes, including the image ones, run in the
-`video` environment. Over the paper's 100 prompts the SDXL probe reproduces Tab. 1 exactly (participation ratio 0.40,
+`video` environment. Over the paper's 100 prompts the SDXL probe reproduces Tab. 1 to its two decimals (participation ratio 0.40,
 total variance 1.63, concentration 4.76).
 
 ## 🏋️ Training and 📊 evaluation

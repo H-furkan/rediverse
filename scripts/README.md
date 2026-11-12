@@ -33,7 +33,7 @@ Example:
 
 ```bash
 HF_HOME=${HF_HOME:-$HOME/.cache/huggingface} GPUS="0 1 2 3" \
-  PY_IMAGE=venvs/image/bin/python PY_TRAIN=venvs/train/bin/python \
+  PY_IMAGE=venvs/image/bin/python PY_TRAIN=venvs/train/bin/python ADAPTER=outputs/sdxl/release \
   bash scripts/sdxl.sh data train directions generate
 ```
 

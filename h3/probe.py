@@ -14,8 +14,8 @@ transformer_blocks is its video rows (the tail of the packed [text | audio | vid
 
 Default prompts: the paper's 20 video probe prompts (prompts/probe_video20.txt, GenEval indices),
 N = 1000. The text contexts are encoded first and the 66 GB text encoder is freed before the
-transformer is loaded. One block of one arm stages N x 200 M bf16 values, so a host with less than
-about 1 TB of free memory should lower --n or probe a block window with --blocks.
+transformer is loaded. One block of one arm stages N x 200 M bf16 values (about 400 GB at N = 1000)
+plus the model, so a smaller host should lower --n or probe a block window with --blocks.
 """
 from __future__ import annotations
 
