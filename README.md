@@ -103,7 +103,7 @@ commands that regenerate them.
 </p>
 <p align="center">
   <img src="assets/wan_dog.webp" width="49%" alt="Wan 2.1, a dog running happily: three seed-matched clips of the student and of ReDiverse">
-  <img src="assets/wan_astronaut.webp" width="49%" alt="Wan 2.1, an astronaut flying in space, in super slow motion: three seed-matched clips of the student and of ReDiverse">
+  <img src="assets/wan_fox.webp" width="49%" alt="Wan 2.1, a fox running through the snow: three seed-matched clips of the student and of ReDiverse">
 </p>
 <p align="center">
   <img src="assets/h3_airplane.webp" width="49%" alt="MiniMax-H3, an airplane accelerating to gain speed: three seed-matched clips of the student and of ReDiverse">
