@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 
 REDIVERSE_HF_REPO = "ReDiverse/ReDiverse"
-HF_REVISION = "9a4deb8527b3e3234b01b579445bb93979bbf601"   # ReDiverse/ReDiverse commit of the released adapters
+HF_REVISION = "3dc87bc3bfe28d4704c84ea41bdc91c231a209b1"   # ReDiverse/ReDiverse commit of the released adapters
 ADAPTER_FILE = "rediverse_ft.safetensors"
 # package name -> Hub subfolder
 BACKBONES = {"sdxl": "sdxl", "sd3": "sd3", "wan": "wan2.1", "h3": "minimax-h3"}
@@ -46,7 +46,12 @@ def resolve_adapter(path_or_default, backbone: str, repo_id: str = None, revisio
         raise FileNotFoundError(f"no ReDiverse-FT adapter for {sub} at {p}")
     from huggingface_hub import hf_hub_download
     repo = repo_id or os.environ.get("REDIVERSE_HF_REPO", REDIVERSE_HF_REPO)
-    return hf_hub_download(repo, filename=f"{sub}/{ADAPTER_FILE}", revision=revision or HF_REVISION)
+    rev = revision or HF_REVISION
+    try:   # the Hub counts a download of the repository when its root config.json is requested
+        hf_hub_download(repo, filename="config.json", revision=rev)
+    except Exception:
+        pass
+    return hf_hub_download(repo, filename=f"{sub}/{ADAPTER_FILE}", revision=rev)
 
 
 def load_lora_safetensors(path: str):
