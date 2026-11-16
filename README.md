@@ -31,7 +31,8 @@
 **TL;DR.** Few-step distilled students lose sample diversity. Probing their activations shows why: the student keeps
 the teacher's activation variance across seeds but squeezes it into far fewer directions, starting at one block in the
 first denoising step. ReDiverse puts the missing directions back at that block, either with a short LoRA fine-tune
-(**ReDiverse-FT**) or with no training at all (**ReDiverse-TF**), on SDXL, SD3, Wan 2.1 and MiniMax-H3.
+(**ReDiverse-FT**) or with no training at all (**ReDiverse-TF**), on SDXL, SD3, Wan 2.1 and MiniMax-H3. A ReDiverse-FT
+adapter for Pika H3 Flex is released too.
 
 <details>
 <summary>Click for the full abstract</summary>
@@ -84,8 +85,7 @@ On Wan 2.1 the ReDiverse-FT target is read from the CFG-distilled teacher (Wan 2
 
 Sample diversity (DINO, mean pairwise distance between the samples of a prompt, ×100, higher is more diverse) on
 GenEval (553 prompts × 100 seeds) and VBench (300 prompts × 10 clips). Every row except the teacher samples in four
-steps. The full diversity and quality tables are in the paper; [`docs/REPRODUCE.md`](docs/REPRODUCE.md) has the
-commands that regenerate them.
+steps. The full diversity and quality tables are in the [paper](https://arxiv.org/abs/2611.18550).
 
 | DINO diversity ↑ | SDXL | SD3 | Wan 2.1 | MiniMax-H3 |
 |---|---:|---:|---:|---:|
@@ -110,6 +110,10 @@ commands that regenerate them.
 <p align="center">
   <img src="assets/h3_airplane.webp" width="49%" alt="MiniMax-H3, an airplane accelerating to gain speed: three seed-matched clips of the student and of ReDiverse">
   <img src="assets/h3_penguin.webp" width="49%" alt="MiniMax-H3, a penguin walking on ice: three seed-matched clips of the student and of ReDiverse">
+</p>
+<p align="center">
+  <img src="assets/pika_ironman.webp" width="49%" alt="Pika H3 Flex, Iron Man flying in the sky: three seed-matched clips of the student and of ReDiverse">
+  <img src="assets/pika_astronaut.webp" width="49%" alt="Pika H3 Flex, an astronaut flying in space: three seed-matched clips of the student and of ReDiverse">
 </p>
 <p align="center"><em>In each figure, every ReDiverse sample starts from the same noise as the student sample at the same position. The
 student repeats one shot (the same close-up, the same park, the same top-down runway); ReDiverse varies the subject, the
@@ -160,8 +164,9 @@ python -m wan.generate  --arm rediverse --prompt "a corgi surfing a wave at suns
 python -m h3.generate   --arm rediverse --prompt "a corgi running on the beach at sunset" --num-samples 4  # video env
 ```
 
-Before downloading or running MiniMax-H3, check that the territory and terms of the MiniMax H3 Community License allow
-your use.
+Before downloading or running MiniMax-H3 or Pika H3 Flex, check that the territory and terms of the MiniMax H3 Community
+License allow your use. Pika H3 Flex runs with `generate_pika.py` from its
+[Hugging Face repository](https://huggingface.co/ReDiverse/ReDiverse-Pika-H3-Flex).
 
 The TF arms first estimate the prompt's teacher directions (about 15 s on SDXL and SD3, 15 min on Wan 2.1, one
 GPU-hour on MiniMax-H3) and cache them next to the samples. Each backbone README ([`sdxl/`](sdxl/README.md),
@@ -203,17 +208,14 @@ PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/minimax-h3/train/rediverse_ft \
 
 Without `ADAPTER`, `generate` uses the released adapter from the Hub. [`scripts/README.md`](scripts/README.md) lists the
 stages and variables of every driver. The image and video metrics and the table scripts are in
-[`evaluation/`](evaluation/README.md). The commands behind the main
-comparison, the design-choice and ablation tables and the probe results, with GPU times, are in
-[`docs/REPRODUCE.md`](docs/REPRODUCE.md). Not included: the baselines (Noise Optimization, DP-DMD, DFD), the user study
-and the VLM-as-a-judge study, the comparison of two MiniMax-H3 students (Tab. 6, FastVideo and Turbo), the paired
-comparison with the student (win rates and sign test) and the SAM 3 foreground and background diversity.
+[`evaluation/`](evaluation/README.md).
 
 ## 📄 License
 
 The code is released under the [Apache License 2.0](LICENSE). The adapters follow the licenses of their base models:
 SDXL CC BY-NC-SA 4.0 with the Open RAIL++-M use restrictions, SD3 the Stability AI Community License, Wan 2.1 Apache-2.0;
-MiniMax-H3 is distributed under the MiniMax H3 Community License. Details are in [`docs/REPRODUCE.md`](docs/REPRODUCE.md#license).
+the MiniMax-H3 and Pika H3 Flex adapters, the MiniMax H3 Community License. Each adapter's
+[Hugging Face repository](https://huggingface.co/ReDiverse) holds its license and NOTICE files.
 
 ## 🙏 Acknowledgements
 
