@@ -52,6 +52,8 @@ supported by the user study.
 
 ## 📰 Updates
 
+- **[11/2026]** The ReDiverse-FT adapter for [Pika H3 Flex](https://huggingface.co/Pika-Labs/Pika-H3-Flex) on
+  🤗 [Hugging Face](https://huggingface.co/ReDiverse/ReDiverse-Pika-H3-Flex), with its own generation script.
 - **[11/2026]** Code, the activation probe and the ReDiverse-FT adapters for SDXL, SD3, Wan 2.1 and MiniMax-H3 on
   🤗 [Hugging Face](https://huggingface.co/ReDiverse).
 
@@ -117,7 +119,8 @@ style, the setting and the camera. More examples are on the
 ## 📦 Model zoo
 
 The ReDiverse-FT adapters are on 🤗 [Hugging Face: ReDiverse/ReDiverse](https://huggingface.co/ReDiverse/ReDiverse); the
-generators below download them on first use. ReDiverse-TF needs no weights.
+generators below download them on first use. ReDiverse-TF needs no weights. Each adapter also has its own repository under
+🤗 [ReDiverse](https://huggingface.co/ReDiverse).
 
 | Backbone | 4-step student | Adapter | Size | License |
 |---|---|---|---:|---|
@@ -125,10 +128,12 @@ generators below download them on first use. ReDiverse-TF needs no weights.
 | SD3 | [TDM](https://huggingface.co/Luo-Yihong/TDM_sd3_lora) | 🤗 [`sd3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/sd3) | 89 MB | Stability AI Community License |
 | Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
 | MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | 🤗 [`minimax-h3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/minimax-h3) | 612 MB | MiniMax H3 Community License |
+| Pika H3 Flex | [Pika H3 Flex](https://huggingface.co/Pika-Labs/Pika-H3-Flex) (6-step) | 🤗 [`rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse-Pika-H3-Flex/tree/main) | 612 MB | MiniMax H3 Community License |
 
-The MiniMax-H3 adapter is released for research purposes. Its use is governed by the MiniMax H3 Community License,
-whose Applicable Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the license allows
-your use before downloading or running MiniMax-H3 or the adapter.
+The MiniMax-H3 and Pika H3 Flex adapters are released for research purposes. Their use is governed by the MiniMax H3
+Community License, whose Applicable Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the
+license allows your use before downloading or running MiniMax-H3, Pika H3 Flex or the adapters. The Pika H3 Flex adapter
+runs with the `generate_pika.py` script in its Hugging Face repository, not with the generators here.
 
 ## ⚙️ Setup
 
