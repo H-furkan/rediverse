@@ -25,6 +25,7 @@
   <a href="https://rediverse-distillation.github.io/rediverse-distillation/"><img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project page"></a>
   <a href="https://arxiv.org/abs/2611.18550"><img src="https://img.shields.io/badge/arXiv-2611.18550-b31b1b.svg?logo=arxiv" alt="arXiv 2611.18550"></a>
   <a href="https://huggingface.co/ReDiverse"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-yellow.svg" alt="Models on Hugging Face"></a>
+  <a href="https://huggingface.co/spaces/ozgurkara/ReDiverse-MiniMax-H3"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Demo-MiniMax--H3-ff9d00.svg" alt="Demo on Hugging Face Spaces"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
 </p>
 
@@ -53,6 +54,7 @@ supported by the user study.
 
 ## 📰 Updates
 
+- **[11/2026]** 🤗 [Demo](https://huggingface.co/spaces/ozgurkara/ReDiverse-MiniMax-H3): MiniMax-H3 with the ReDiverse-FT adapter, on Hugging Face Spaces.
 - **[11/2026]** ComfyUI versions of the MiniMax-H3 and Pika H3 Flex adapters, converted by [kabachuha](https://huggingface.co/kabachuha):
   🤗 [ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy) and
   🤗 [ReDiverse-Pika-H3-Flex-Comfy](https://huggingface.co/kabachuha/ReDiverse-Pika-H3-Flex-Comfy), with example workflows.
