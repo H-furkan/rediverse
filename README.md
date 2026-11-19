@@ -53,6 +53,9 @@ supported by the user study.
 
 ## 📰 Updates
 
+- **[11/2026]** ComfyUI versions of the MiniMax-H3 and Pika H3 Flex adapters, converted by [kabachuha](https://huggingface.co/kabachuha):
+  🤗 [ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy) and
+  🤗 [ReDiverse-Pika-H3-Flex-Comfy](https://huggingface.co/kabachuha/ReDiverse-Pika-H3-Flex-Comfy), with example workflows.
 - **[11/2026]** The ReDiverse-FT adapter for [Pika H3 Flex](https://huggingface.co/Pika-Labs/Pika-H3-Flex) on
   🤗 [Hugging Face](https://huggingface.co/ReDiverse/ReDiverse-Pika-H3-Flex), with its own generation script.
 - **[11/2026]** Code, the activation probe and the ReDiverse-FT adapters for SDXL, SD3, Wan 2.1 and MiniMax-H3 on
@@ -138,6 +141,10 @@ The MiniMax-H3 and Pika H3 Flex adapters are released for research purposes. The
 Community License, whose Applicable Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the
 license allows your use before downloading or running MiniMax-H3, Pika H3 Flex or the adapters. The Pika H3 Flex adapter
 runs with the `generate_pika.py` script in its Hugging Face repository, not with the generators here.
+
+**ComfyUI:** community conversions of the MiniMax-H3 and Pika H3 Flex adapters to ComfyUI's native LoRA format, each with
+an example workflow, are at 🤗 [kabachuha/ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy)
+and 🤗 [kabachuha/ReDiverse-Pika-H3-Flex-Comfy](https://huggingface.co/kabachuha/ReDiverse-Pika-H3-Flex-Comfy).
 
 ## ⚙️ Setup
 
