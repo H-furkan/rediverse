@@ -55,8 +55,8 @@ supported by the user study.
 ## 📰 Updates
 
 - **[11/2026]** 🤗 [Krea 2 ReDiverse](https://huggingface.co/ReDiverse/Krea-2-ReDiverse): ReDiverse for Krea 2 Turbo (8 steps),
-  with Krea 2 Raw as the teacher. With the adapter and the steering it reaches the teacher's diversity in a sweep on six
-  GenEval prompts (DINO 49.4 → 71.5, teacher 70.0) at Turbo's ImageReward. Code in [`krea2/`](krea2/README.md).
+  with Krea 2 Raw as the teacher. With the adapter and the steering it reaches the teacher's DINO diversity on GenEval
+  (100 prompts × 16 seeds: 50.8 → 66.0, teacher 65.2). Code in [`krea2/`](krea2/README.md).
 - **[11/2026]** 🤗 [Demo](https://huggingface.co/spaces/ozgurkara/ReDiverse-MiniMax-H3): MiniMax-H3 with the ReDiverse-FT adapter, on Hugging Face Spaces.
 - **[11/2026]** ComfyUI versions of the MiniMax-H3 and Pika H3 Flex adapters, converted by [kabachuha](https://huggingface.co/kabachuha):
   🤗 [ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy) and

@@ -55,22 +55,22 @@ The remaining seven steps run Krea 2 Turbo unchanged, so its look is kept.
 
 ## Results
 
-Six GenEval prompts (bench, potted plant, car, dog, tie, cell phone) × 8 seeds, 1024², the same initial noises in every row. Diversity is the mean pairwise distance
+100 GenEval prompts × 16 seeds, 1024², the same initial noises in every row. Diversity is the mean pairwise distance
 between the samples of a prompt (×100, Vendi raw), higher is more diverse; "gap closed" is the share of the Turbo → Raw DINO
 gap recovered. Quality is HPSv2.1 and ImageReward, reported as the change from Krea 2 Turbo.
 
 | | DINO | gap closed | Vendi | DreamSim | CLIPScore | Δ HPSv2 | Δ ImageReward |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Krea 2 Turbo | 49.4 | 0% | 2.38 | 22.6 | 29.7 | 0.00 | 0.000 |
-| ReDiverse-TF only, α ~ U[−2, 2] | 50.2 | 4% | 2.54 | 24.5 | 29.5 | −0.37 | +0.042 |
-| ReDiverse-FT only | 69.1 | 95% | 3.74 | 39.6 | 29.2 | −0.39 | −0.174 |
-| ReDiverse, α ~ U[−2, 2] (paper setting) | 68.4 | 92% | 3.62 | 37.0 | 29.1 | −0.23 | −0.035 |
-| **ReDiverse, α ~ U[−4, 4] (default here)** | **71.5** | **107%** | **4.10** | **43.0** | 29.1 | −1.00 | **−0.031** |
-| *Krea 2 Raw (teacher, 52 steps)* | *70.0* | *100%* | *4.10* | *43.2* | *28.9* | *−2.23* | *−0.243* |
+| Krea 2 Turbo | 50.8 | 0% | 2.47 | 20.0 | 33.7 | 0.00 | 0.000 |
+| ReDiverse-TF only, α ~ U[−2, 2] | 51.8 | 7% | 2.57 | 21.3 | 33.7 | −0.08 | −0.005 |
+| ReDiverse-FT only | 64.1 | 92% | 3.48 | 30.3 | 33.3 | −0.38 | −0.103 |
+| ReDiverse, α ~ U[−2, 2] (paper setting) | 64.7 | 97% | 3.59 | 31.3 | 33.3 | −0.48 | −0.113 |
+| **ReDiverse, α ~ U[−4, 4] (default here)** | **66.0** | **106%** | **3.76** | **33.9** | 33.4 | −0.93 | −0.137 |
+| *Krea 2 Raw (teacher, 52 steps)* | *65.2* | *100%* | *4.48* | *37.1* | *33.4* | *−2.31* | *−0.221* |
 
-On this sweep, the default steering strength brings Krea 2 Turbo to Krea 2 Raw's diversity (DINO 71.5 vs 70.0, Vendi 4.10
-vs 4.10, DreamSim 43.0 vs 43.2) while keeping Turbo's ImageReward; the paper's setting (α ~ U[−2, 2]) trades a little
-diversity for the smallest quality change.
+The default setting brings Krea 2 Turbo to Krea 2 Raw's DINO diversity (66.0 vs 65.2) and closes most of the Vendi and
+DreamSim gap, at a smaller quality cost than the teacher's (Δ ImageReward −0.14 vs −0.22); the paper's setting
+(α ~ U[−2, 2]) trades a little diversity for a smaller quality change.
 
 ## Examples
 

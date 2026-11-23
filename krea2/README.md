@@ -95,16 +95,16 @@ Arms: `teacher`, `student`, `rediverse_ft`, `rediverse_tf`, `rediverse` (FT + TF
 arms. Turbo arms run at ~3.5 s per image, the teacher at ~40 s. `krea2.sweep` renders many inference settings (adapter
 checkpoint and strength, adapter steps, TF block, band and steps) with one model load; `krea2/sweep_table.py` tabulates them.
 
-## Results (GenEval, 8 seeds per prompt, 1024²)
+## Results (GenEval, 100 prompts × 16 seeds, 1024²)
 
 | | DINO | Vendi | DreamSim | CLIPScore | Δ HPSv2 | Δ ImageReward |
 |---|---:|---:|---:|---:|---:|---:|
-| Turbo | 49.4 | 2.38 | 22.6 | 29.7 | 0.00 | 0.000 |
-| ReDiverse-TF (band 2) | 50.2 | 2.54 | 24.5 | 29.5 | −0.37 | +0.042 |
-| ReDiverse-FT | 69.1 | 3.74 | 39.6 | 29.2 | −0.39 | −0.174 |
-| ReDiverse, band 2 (paper) | 68.4 | 3.62 | 37.0 | 29.1 | −0.23 | −0.035 |
-| ReDiverse, band 4 | 71.5 | 4.10 | 43.0 | 29.1 | −1.00 | −0.031 |
-| Raw (teacher) | 70.0 | 4.10 | 43.2 | 28.9 | −2.23 | −0.243 |
+| Turbo | 50.8 | 2.47 | 20.0 | 33.7 | 0.00 | 0.000 |
+| ReDiverse-TF (band 2) | 51.8 | 2.57 | 21.3 | 33.7 | −0.08 | −0.005 |
+| ReDiverse-FT | 64.1 | 3.48 | 30.3 | 33.3 | −0.38 | −0.103 |
+| ReDiverse, band 2 (paper) | 64.7 | 3.59 | 31.3 | 33.3 | −0.48 | −0.113 |
+| ReDiverse, band 4 | 66.0 | 3.76 | 33.9 | 33.4 | −0.93 | −0.137 |
+| Raw (teacher) | 65.2 | 4.48 | 37.1 | 33.4 | −2.31 | −0.221 |
 
 The released adapter is on [ReDiverse/Krea-2-ReDiverse](https://huggingface.co/ReDiverse/Krea-2-ReDiverse) (gated: Krea 2
 Community License), with a standalone diffusers script, `generate_krea2.py`.
