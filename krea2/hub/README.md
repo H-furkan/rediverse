@@ -74,9 +74,6 @@ diversity for the smallest quality change.
 
 ## Examples
 
-Each figure: Krea 2 Turbo (top row) and Krea 2 ReDiverse (bottom row, default setting) from the same six initial noises,
-seeds 0–5 as rendered.
-
 | | |
 |---|---|
 | ![a wizard casting a spell](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/wizard.jpg) | ![a bowl of ramen](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/ramen.jpg) |
@@ -139,15 +136,6 @@ ComfyUI; diffusers converts it on load as well. Keep it active in the first step
 | Steering | 25 conditional Krea 2 Raw rollouts per prompt, top-8 directions at block 26, step 5; α ~ U[−4, 4] per sample and direction |
 
 Code for probing, training, steering and evaluation: [`krea2/`](https://github.com/H-furkan/rediverse/tree/main/krea2) in the ReDiverse repository.
-
-## Limitations
-
-- Krea 2 Raw is Krea's mid-training checkpoint, while Turbo is also post-trained (SFT, preference and RL tuning) besides
-  distillation. The probe therefore measures post-training and distillation together, and the adapter can move Turbo's
-  first step toward Raw's style; HPSv2 drops by up to 1 point at the default steering strength (Raw itself: −2.2).
-- Trained and tested at 1024×1024; the steering directions are tied to that resolution.
-- The results above are on GenEval-style prompts; long, very specific prompts leave less room for variation.
-- Krea 2 Raw sometimes frames its images with a border or letterbox band; a few ReDiverse samples inherit it.
 
 ## License
 
