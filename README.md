@@ -32,8 +32,8 @@
 **TL;DR.** Few-step distilled students lose sample diversity. Probing their activations shows why: the student keeps
 the teacher's activation variance across seeds but squeezes it into far fewer directions, starting at one block in the
 first denoising step. ReDiverse puts the missing directions back at that block, either with a short LoRA fine-tune
-(**ReDiverse-FT**) or with no training at all (**ReDiverse-TF**), on SDXL, SD3, Wan 2.1 and MiniMax-H3. A ReDiverse-FT
-adapter for Pika H3 Flex is released too.
+(**ReDiverse-FT**) or with no training at all (**ReDiverse-TF**), on SDXL, SD3, Wan 2.1 and MiniMax-H3. ReDiverse-FT
+adapters for Pika H3 Flex and Krea 2 Turbo are released too.
 
 <details>
 <summary>Click for the full abstract</summary>
@@ -54,6 +54,9 @@ supported by the user study.
 
 ## 📰 Updates
 
+- **[11/2026]** 🤗 [Krea 2 ReDiverse](https://huggingface.co/ReDiverse/Krea-2-ReDiverse): ReDiverse for Krea 2 Turbo (8 steps),
+  with Krea 2 Raw as the teacher. With the adapter and the steering it reaches the teacher's diversity on GenEval prompts
+  (DINO 49.4 → 71.5, teacher 70.0) at Turbo's ImageReward. Code in [`krea2/`](krea2/README.md).
 - **[11/2026]** 🤗 [Demo](https://huggingface.co/spaces/ozgurkara/ReDiverse-MiniMax-H3): MiniMax-H3 with the ReDiverse-FT adapter, on Hugging Face Spaces.
 - **[11/2026]** ComfyUI versions of the MiniMax-H3 and Pika H3 Flex adapters, converted by [kabachuha](https://huggingface.co/kabachuha):
   🤗 [ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy) and
@@ -82,6 +85,7 @@ supported by the user study.
 | SD3 | SD3-Medium | TDM | `transformer_blocks.12` | 9 | 9 |
 | Wan 2.1 | Wan2.1-T2V-14B | lightx2v | `blocks.28` | 13 | 8 |
 | MiniMax-H3 | MiniMax-H3 | Turbo | `transformer_blocks.45` | 16 | 16 |
+| Krea 2 | Krea 2 Raw | Krea 2 Turbo (8-step) | `transformer_blocks.26` | 5 | 5 |
 
 On Wan 2.1 the ReDiverse-FT target is read from the CFG-distilled teacher (Wan 2.1 with the Perflow CFG5-to-CFG1 LoRA,
 50 UniPC steps, flow shift 5), so its step differs from the TF direction step.
@@ -138,11 +142,14 @@ generators below download them on first use. ReDiverse-TF needs no weights. Each
 | Wan 2.1 | [lightx2v](https://huggingface.co/lightx2v/Wan2.1-T2V-14B-StepDistill-CfgDistill-Lightx2v) | 🤗 [`wan2.1/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/wan2.1) | 445 MB | Apache-2.0 |
 | MiniMax-H3 | [Turbo](https://huggingface.co/lightx2v/Minimax-h3-Turbo) | 🤗 [`minimax-h3/rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse/tree/main/minimax-h3) | 612 MB | MiniMax H3 Community License |
 | Pika H3 Flex | [Pika H3 Flex](https://huggingface.co/Pika-Labs/Pika-H3-Flex) (6-step) | 🤗 [`rediverse_ft.safetensors`](https://huggingface.co/ReDiverse/ReDiverse-Pika-H3-Flex/tree/main) | 612 MB | MiniMax H3 Community License |
+| Krea 2 | [Krea 2 Turbo](https://huggingface.co/krea/Krea-2-Turbo) (8-step) | 🤗 [`krea-2-rediverse.safetensors`](https://huggingface.co/ReDiverse/Krea-2-ReDiverse/tree/main) | 414 MB | Krea 2 Community License |
 
 The MiniMax-H3 and Pika H3 Flex adapters are released for research purposes. Their use is governed by the MiniMax H3
 Community License, whose Applicable Territory excludes the EU, the UK, the Republic of Korea and the USA; check that the
 license allows your use before downloading or running MiniMax-H3, Pika H3 Flex or the adapters. The Pika H3 Flex adapter
-runs with the `generate_pika.py` script in its Hugging Face repository, not with the generators here.
+runs with the `generate_pika.py` script in its Hugging Face repository, not with the generators here. Krea 2 ReDiverse is a
+Derivative of Krea 2 under the Krea 2 Community License (its repository holds the license and NOTICE); it runs with
+`python -m krea2.generate` here or with the standalone `generate_krea2.py` in its Hugging Face repository.
 
 **ComfyUI:** community conversions of the MiniMax-H3 and Pika H3 Flex adapters to ComfyUI's native LoRA format, each with
 an example workflow, are at 🤗 [kabachuha/ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy)
