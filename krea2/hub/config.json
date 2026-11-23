@@ -1,0 +1,56 @@
+{
+  "name": "Krea 2 ReDiverse",
+  "method": "ReDiverse (ReDiverse-FT adapter + ReDiverse-TF steering)",
+  "paper": "arXiv:2611.18550",
+  "base_model": "krea/Krea-2-Turbo",
+  "base_revision": "98e0fe118d17c9e3547fbb2e25acdbae2cadf7c7",
+  "teacher": "krea/Krea-2-Raw",
+  "teacher_revision": "6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603",
+  "resolution": [
+    1024,
+    1024
+  ],
+  "student_steps": 8,
+  "student_guidance": 0.0,
+  "collapsed_block": 26,
+  "lora": {
+    "rank": 32,
+    "alpha": 32,
+    "blocks": "0..26",
+    "modules": [
+      "attn.to_q",
+      "attn.to_k",
+      "attn.to_v",
+      "attn.to_gate",
+      "attn.to_out.0",
+      "ff.gate",
+      "ff.up",
+      "ff.down"
+    ],
+    "dtype": "float32",
+    "active_steps": [
+      1
+    ]
+  },
+  "training": {
+    "target": "Krea-2-Raw block 26 image rows at teacher forward 5 of 52 (4 guided steps, Krea guidance 3.5 = CFG 4.5)",
+    "captions": "100 DiffusionDB captions x 16 noises",
+    "steps": 200,
+    "batch": 32,
+    "lr": 0.0001,
+    "loss": "MSE",
+    "student_input": "Turbo step 1 (sigma 1) from the same noise"
+  },
+  "tf": {
+    "block": 26,
+    "teacher_forward": 5,
+    "rollouts": 25,
+    "rollout_guidance": 0.0,
+    "directions": 8,
+    "alpha_range": 4.0,
+    "paper_alpha_range": 2.0,
+    "active_steps": [
+      1
+    ]
+  }
+}

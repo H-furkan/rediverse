@@ -1,0 +1,20 @@
+# Environment 'krea2': every Krea 2 stage (probe, ReDiverse-TF directions, target bank, ReDiverse-FT training, generation,
+# sweep, conversion). Krea2Pipeline needs diffusers >= 0.39, and Krea 2's tokenizer and Qwen3-VL text-encoder configs use the
+# transformers 5.x format (they fail to load with 4.x). torch 2.9.1 is the CUDA 12.8 build (H100 and Blackwell GPUs).
+# Unlike the other files this is the set of direct dependencies, installed WITH dependency resolution:
+#   python3.12 -m venv venvs/krea2 && venvs/krea2/bin/pip install -r envs/requirements-krea2.txt
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.9.1
+torchvision==0.24.1
+diffusers==0.39.0
+transformers==5.2.0
+huggingface_hub==1.33.0
+tokenizers==0.22.2
+peft==0.19.1
+accelerate==1.14.0
+safetensors==0.8.0
+numpy==2.2.6
+pillow==12.1.1
+scipy==1.17.0
+sentencepiece==0.2.1
+einops==0.8.2

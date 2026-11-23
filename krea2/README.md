@@ -16,9 +16,24 @@ only the `Krea2Transformer2DModel` weights differ. Revisions are pinned in `krea
 | ReDiverse-FT adapter | LoRA r = 32, α = 32 on `attn.to_q/k/v/to_gate/to_out.0`, `ff.gate/up/down` of blocks 0..26 (216 modules, 103.5M parameters); active in sampling step 1 only |
 | ReDiverse-TF | K = 8 directions from N = 25 conditional-only Raw rollouts per prompt (block 26 image rows at forward 5), α_k ~ U[−band, band] added in step 1; band 2 in the paper, 4 recommended for Krea 2 |
 
-Everything runs in an environment with `diffusers` ≥ 0.39 (`Krea2Pipeline`), `transformers` 5.x (Krea's tokenizer and
-Qwen3-VL configs use the 5.x format) and `peft`. Data go to `<REDIVERSE_DATA>/krea2/`, outputs to `<REDIVERSE_OUT>/krea2/`.
-GPU figures below are for RTX PRO 6000 (96 GB); an 80 GB H100 is about 1.5–2× faster.
+Everything runs in the `krea2` environment (`envs/requirements-krea2.txt`: `diffusers` 0.39 for `Krea2Pipeline`,
+`transformers` 5.x for Krea's tokenizer and Qwen3-VL configs, `peft`). Data go to `<REDIVERSE_DATA>/krea2/`, outputs to
+`<REDIVERSE_OUT>/krea2/`. GPU figures below are for RTX PRO 6000 (96 GB); an 80 GB H100 is about 1.5–2× faster.
+`bash scripts/krea2.sh probe directions bank train generate` runs everything end to end (see `scripts/README.md`).
+
+| File | Role |
+|---|---|
+| `config.py` | model ids and pinned revisions, schedules, the site (`ANCHOR_BLOCK = 26`, `TEACHER_TARGET_STEP = 5`), paths |
+| `model.py` | loading (fp32 norms), compacted text contexts, the single forward, `forward_to_blocks` (truncated forward), schedules, the ReDiverse-FT LoRA |
+| `probe.py` | activation probe of every block at step 1 (backbone for `rediverse.probe`) |
+| `estimate_directions.py` | ReDiverse-TF directions: 25 conditional Raw rollouts per prompt, top-8 PCA at block l |
+| `build_targets.py` | ReDiverse-FT target bank: guided Raw rollouts, block-l image rows at forward tau |
+| `train.py` | ReDiverse-FT training (torchrun data parallel) |
+| `generate.py` | the five arms on a prompt file; `--check-pipeline` compares the sampling loop with `Krea2Pipeline` |
+| `sweep.py`, `sweep_table.py` | many inference settings with one model load, and their metric table |
+| `showcase.py` | seed-matched Turbo vs ReDiverse figures |
+| `convert_weights.py` | the released diffusers and ComfyUI LoRA files and `config.json` |
+| `hub/` | the files of the Hugging Face release: `generate_krea2.py` (standalone, diffusers only), the model card `README.md`, `NOTICE` |
 
 ## Two implementation notes
 

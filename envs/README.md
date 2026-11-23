@@ -14,6 +14,7 @@ the documented batch sizes.
 | `tpips`  | 3.12 | 2.13.0+cu126 | `requirements-tpips.txt` |
 | `vbench` | 3.10 | 2.7.1+cu126  | `requirements-vbench.txt` |
 | `vipe`   | 3.10 | 2.7.1+cu126  | `vipe.md` + `constraints-vipe.txt` |
+| `krea2`  | 3.12 | 2.9.1+cu128  | `requirements-krea2.txt` (direct dependencies; installed with resolution) |
 
 ```bash
 python3.12 -m venv venvs/train && venvs/train/bin/pip install --no-deps -r envs/requirements-train.txt
@@ -22,6 +23,7 @@ python3.12 -m venv venvs/video && venvs/video/bin/pip install --no-deps -r envs/
 python3.12 -m venv venvs/tpips && venvs/tpips/bin/pip install --no-deps -r envs/requirements-tpips.txt
 python3.10 -m venv venvs/vbench && venvs/vbench/bin/pip install --no-deps -r envs/requirements-vbench.txt
 # vipe: see envs/vipe.md
+python3.12 -m venv venvs/krea2 && venvs/krea2/bin/pip install -r envs/requirements-krea2.txt
 ```
 
 Each file lists the complete package set of its reference environment, so it is installed with
@@ -47,6 +49,7 @@ resolver would reject. The CUDA 12.6 files fetch torch from
 | TPIPS (images and video), video DINO and V-JEPA 2 features, video metric aggregation and tables | `tpips` |
 | ViCLIP scores, VBench subject / background consistency | `vbench` |
 | Camera trajectories (ViPE) | `vipe` |
+| Krea 2: every stage (`krea2.*`: probe, directions, target bank, training, generation, sweep, conversion) | `krea2` |
 | `prompts/download_train_captions.py` | any (standard library only) |
 
 ## System dependencies
@@ -114,4 +117,13 @@ Backbone-specific environment details, by package.
   as separate phases (text contexts, latents, decoding).
 - Training needs two 80 GB GPUs.
 - Each ReDiverse-TF direction worker needs about 30 GB of host RAM.
+- After the first download of the models, `HF_HUB_OFFLINE=1` works.
+
+### Krea 2
+
+- Every `krea2` stage runs in `krea2` (diffusers 0.39 for `Krea2Pipeline`; transformers 5.x for Krea 2's tokenizer and
+  Qwen3-VL text-encoder configs). Image metrics run in `image` and `tpips` as for the other backbones.
+- krea/Krea-2-Turbo and krea/Krea-2-Raw are gated: accept Krea's license on the Hub and run `hf auth login`.
+- One transformer is 25.6 GB in bf16; generation, directions and the target bank need one GPU per worker, training about
+  45 GB per rank (two ranks: ~2.2 h on RTX PRO 6000) and 80 GB of host RAM per rank for the target bank.
 - After the first download of the models, `HF_HUB_OFFLINE=1` works.

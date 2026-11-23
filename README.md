@@ -55,8 +55,8 @@ supported by the user study.
 ## 📰 Updates
 
 - **[11/2026]** 🤗 [Krea 2 ReDiverse](https://huggingface.co/ReDiverse/Krea-2-ReDiverse): ReDiverse for Krea 2 Turbo (8 steps),
-  with Krea 2 Raw as the teacher. With the adapter and the steering it reaches the teacher's diversity on GenEval prompts
-  (DINO 49.4 → 71.5, teacher 70.0) at Turbo's ImageReward. Code in [`krea2/`](krea2/README.md).
+  with Krea 2 Raw as the teacher. With the adapter and the steering it reaches the teacher's diversity in a sweep on six
+  GenEval prompts (DINO 49.4 → 71.5, teacher 70.0) at Turbo's ImageReward. Code in [`krea2/`](krea2/README.md).
 - **[11/2026]** 🤗 [Demo](https://huggingface.co/spaces/ozgurkara/ReDiverse-MiniMax-H3): MiniMax-H3 with the ReDiverse-FT adapter, on Hugging Face Spaces.
 - **[11/2026]** ComfyUI versions of the MiniMax-H3 and Pika H3 Flex adapters, converted by [kabachuha](https://huggingface.co/kabachuha):
   🤗 [ReDiverse-MiniMax-H3-Comfy](https://huggingface.co/kabachuha/ReDiverse-MiniMax-H3-Comfy) and
@@ -124,9 +124,13 @@ steps. The full diversity and quality tables are in the [paper](https://arxiv.or
   <img src="assets/pika_ironman.webp" width="49%" alt="Pika H3 Flex, Iron Man flying in the sky: three seed-matched clips of the student and of ReDiverse">
   <img src="assets/pika_astronaut.webp" width="49%" alt="Pika H3 Flex, an astronaut flying in space: three seed-matched clips of the student and of ReDiverse">
 </p>
+<p align="center">
+  <img src="assets/krea2_ramen.jpg" width="49%" alt="Krea 2, a bowl of ramen: six seed-matched samples of Krea 2 Turbo and of ReDiverse">
+  <img src="assets/krea2_wizard.jpg" width="49%" alt="Krea 2, a wizard casting a spell: six seed-matched samples of Krea 2 Turbo and of ReDiverse">
+</p>
 <p align="center"><em>In each figure, every ReDiverse sample starts from the same noise as the student sample at the same position. The
 student repeats one shot (the same close-up, the same park, the same top-down runway); ReDiverse varies the subject, the
-style, the setting and the camera. More examples are on the
+style, the setting and the camera. The Krea 2 figures use the released setting (ReDiverse-FT + ReDiverse-TF, α ~ U[−4, 4]). More examples are on the
 <a href="https://rediverse-distillation.github.io/rediverse-distillation/">project page</a>.</em></p>
 
 ## 📦 Model zoo
@@ -178,6 +182,7 @@ python -m sdxl.generate --arm rediverse --prompt "a photo of a fox in the snow" 
 python -m sd3.generate  --arm rediverse --prompt "a photo of a fox in the snow" --num-samples 4    # train env
 python -m wan.generate  --arm rediverse --prompt "a corgi surfing a wave at sunset" --num-samples 4  # video env
 python -m h3.generate   --arm rediverse --prompt "a corgi running on the beach at sunset" --num-samples 4  # video env
+python krea2/hub/generate_krea2.py --prompt "a photo of a fox in the snow" --seeds 0-3 --out outputs/krea2/prompt --compare  # krea2 env
 ```
 
 Before downloading or running MiniMax-H3 or Pika H3 Flex, check that the territory and terms of the MiniMax H3 Community
@@ -220,6 +225,7 @@ PY_TRAIN=venvs/train/bin/python PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/
   bash scripts/wan.sh encode bank train directions generate
 PY_VIDEO=venvs/video/bin/python ADAPTER=outputs/minimax-h3/train/rediverse_ft \
   bash scripts/h3.sh encode bank train directions generate
+PY=venvs/krea2/bin/python bash scripts/krea2.sh probe directions bank train generate
 ```
 
 Without `ADAPTER`, `generate` uses the released adapter from the Hub. [`scripts/README.md`](scripts/README.md) lists the

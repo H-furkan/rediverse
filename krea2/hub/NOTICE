@@ -1,0 +1,5 @@
+Krea 2 is licensed under the Krea 2 Community License Agreement. For more information, visit https://krea.ai/krea-2-licensing.
+
+Krea 2 ReDiverse is a Derivative of Krea 2 and has been modified from the Krea Model: it is a LoRA adapter for
+krea/Krea-2-Turbo (with inference code), trained by regressing Krea 2 Turbo's activations onto those of krea/Krea-2-Raw
+(ReDiverse, arXiv:2611.18550). It is not an official Krea product and is not endorsed by Krea.

@@ -40,6 +40,7 @@ evaluation/image/
   tpips_embed.py       stage T (GPU): TPIPS-Embed embeddings, one factor per call
   feature_metrics.py   stage B (CPU): DINO, Vendi, DreamSim, CLIPScore, TPIPS from the caches
   merge_shards.py      merges the outputs of run_metrics.py --shard i --num-shards n
+  score_many.py        HPSv2.1 + ImageReward for many sets with one model load (used for the Krea 2 sweep)
   evaluate_set.sh      stages A, H, T, B for one set (main protocol)
   score_ablation.sh    the same stages for one SD3 arm on the ablation grid (prompts/geneval_subset50.txt
                        x 100 seeds), + collect_ablation.py

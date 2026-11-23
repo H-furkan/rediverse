@@ -9,6 +9,7 @@ they change to the repository root. Each stage runs the commands documented in t
 | `bash scripts/sd3.sh <stage> ...` | `data` (captions, embeddings, noise bank), `train` (ReDiverse-FT + conversion), `directions`, `generate`, `probe` | `GPUS`, `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env, `probe`), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
 | `bash scripts/wan.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (torchrun + conversion), `directions`, `generate`, `probe` | `GPUS`, `PY_TRAIN` (`train` env), `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
 | `bash scripts/h3.sh <stage> ...` | `encode`, `bank` (ReDiverse-FT targets), `train` (two GPUs + conversion), `directions`, `generate` (latents, then mp4s), `probe` | `GPUS`, `PY_VIDEO` (`video` env), `ARMS`, `ADAPTER`, `PROBE_RAM_GB` |
+| `bash scripts/krea2.sh <stage> ...` | `probe`, `directions`, `bank` (ReDiverse-FT targets), `train` (torchrun + conversion), `generate` | `GPUS`, `PY` (`krea2` env), `BAND` (ReDiverse-TF α range, default 4; the paper uses 2), `ADAPTER` |
 
 - `GPUS` lists the devices (default `0 1 2 3 4 5 6 7`); sharded stages start one worker per device.
 - `PY_<ENV>` is the Python interpreter of an environment of [`envs/`](../envs/README.md), e.g.

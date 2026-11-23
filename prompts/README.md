@@ -11,11 +11,13 @@ every file name and seed rule. An index file holds comma-separated prompt indice
 | `geneval_subset100.txt` | 100 indices into `geneval_553.txt`: `round(linspace(0, 552, 98))` together with 27 and 62 | the four TPIPS aspects of the image tables; activation probing of SDXL and SD3 (`sdxl.probe`, `sd3.probe`) |
 | `geneval_subset50.txt` | the first 50 indices of `geneval_subset100.txt` | the SD3 ablation table and the design-choice tables (supplementary) |
 | `h3_train_geneval_ids.txt` | 20 indices into `geneval_553.txt`, the same as `probe_video20.txt` | MiniMax-H3 ReDiverse-FT training prompts |
-| `probe_video20.txt` | 20 indices into `geneval_553.txt`: 13, 27 and 199 together with 17 evenly spaced indices of `geneval_subset100.txt` | activation probing of the video backbones (`wan.probe`, `h3.probe`); the image backbones probe `geneval_subset100.txt` |
+| `probe_video20.txt` | 20 indices into `geneval_553.txt`: 13, 27 and 199 together with 17 evenly spaced indices of `geneval_subset100.txt` | activation probing of the video backbones (`wan.probe`, `h3.probe`) and of Krea 2 (`krea2.probe`); SDXL and SD3 probe `geneval_subset100.txt` |
 | `vbench_300.txt` | 300 VBench prompts | video generation and evaluation (`<prompt>-<k>.mp4`) |
 | `vbench_subset100.txt` | indices 0, 3, 6, ..., 297 into `vbench_300.txt` | the four TPIPS aspects of the video tables |
 | `vbench_subset30.txt` | indices 0, 10, 20, ..., 290 into `vbench_300.txt` | camera-trajectory diversity (Cam) |
-| `download_train_captions.py` | writes `train_captions.txt`, the 100 ReDiverse-FT training captions | ReDiverse-FT training on SDXL, SD3 and Wan 2.1 |
+| `download_train_captions.py` | writes `train_captions.txt`, the 100 ReDiverse-FT training captions | ReDiverse-FT training on SDXL, SD3, Wan 2.1 and Krea 2 |
+| `krea2_showcase.txt` | 48 varied prompts (40 short, 8 descriptive) | the Krea 2 example figures (`krea2.showcase`) |
+| `krea2_showcase2.txt` | 48 more short prompts (animals, people, food, objects, places, fantasy, art styles) | more Krea 2 example figures (`krea2.showcase`) |
 
 `vbench_300.txt` is a selection from the prompt lists of the VBench suite (its per-dimension lists
 and its list of all prompts): each of the 11 prompt dimensions contributes a quota proportional to
