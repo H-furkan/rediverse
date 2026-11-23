@@ -1,7 +1,7 @@
 ---
 license: other
 license_name: krea-2-community-license
-license_link: LICENSE.pdf
+license_link: https://huggingface.co/ReDiverse/Krea-2-ReDiverse/blob/main/LICENSE.pdf
 base_model: krea/Krea-2-Turbo
 base_model_relation: adapter
 pipeline_tag: text-to-image
@@ -47,7 +47,7 @@ seeds but squeezes it into far fewer directions. ReDiverse puts the missing dire
 
 The remaining seven steps run Krea 2 Turbo unchanged, so its look is kept.
 
-<p align="center"><img src="assets/showcase.jpg" width="100%" alt="Seed-matched samples of Krea 2 Turbo (top of each pair) and Krea 2 ReDiverse (bottom)"></p>
+<p align="center"><img src="https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/showcase.jpg" width="100%" alt="Seed-matched samples of Krea 2 Turbo (top of each pair) and Krea 2 ReDiverse (bottom)"></p>
 
 | | Teacher | 8-step student | This release |
 |---|---|---|---|
@@ -79,12 +79,12 @@ seeds 0–5 as rendered.
 
 | | |
 |---|---|
-| ![a wizard casting a spell](assets/examples/wizard.jpg) | ![a bowl of ramen](assets/examples/ramen.jpg) |
-| ![a robot in a kitchen](assets/examples/robot.jpg) | ![a sailboat at sunset](assets/examples/sailboat.jpg) |
-| ![a teddy bear on a bed](assets/examples/teddy.jpg) | ![a pair of sneakers](assets/examples/sneakers.jpg) |
-| ![a castle on a hill](assets/examples/castle.jpg) | ![a child flying a kite](assets/examples/kite.jpg) |
-| ![a woman playing the violin](assets/examples/violin.jpg) | ![a train crossing a bridge](assets/examples/train.jpg) |
-| ![a red sports car on a road](assets/examples/car.jpg) | ![a portrait of an astronaut](assets/examples/astronaut.jpg) |
+| ![a wizard casting a spell](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/wizard.jpg) | ![a bowl of ramen](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/ramen.jpg) |
+| ![a robot in a kitchen](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/robot.jpg) | ![a sailboat at sunset](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/sailboat.jpg) |
+| ![a teddy bear on a bed](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/teddy.jpg) | ![a pair of sneakers](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/sneakers.jpg) |
+| ![a castle on a hill](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/castle.jpg) | ![a child flying a kite](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/kite.jpg) |
+| ![a woman playing the violin](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/violin.jpg) | ![a train crossing a bridge](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/train.jpg) |
+| ![a red sports car on a road](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/car.jpg) | ![a portrait of an astronaut](https://huggingface.co/spaces/ReDiverse/README/resolve/main/assets/krea2/astronaut.jpg) |
 
 ## Usage
 
