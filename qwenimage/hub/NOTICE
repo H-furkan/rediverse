@@ -1,0 +1,12 @@
+Qwen-Image-Lightning ReDiverse
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This adapter (qwen-image-lightning-rediverse.safetensors) and its inference script were produced with the ReDiverse
+method (arXiv:2611.18550). The adapter was trained by regressing the activations of Qwen-Image with the
+Qwen-Image-Lightning 8-step V2.0 LoRA onto those of Qwen-Image, and it is meant to be applied on top of both:
+
+  Qwen/Qwen-Image (https://huggingface.co/Qwen/Qwen-Image), Apache License 2.0, by the Qwen team, Alibaba.
+  lightx2v/Qwen-Image-Lightning (https://huggingface.co/lightx2v/Qwen-Image-Lightning), Apache License 2.0, by LightX2V.
+
+Training captions: the first 100 prompts of DiffusionDB (CC0 1.0).
+This adapter is not an official Qwen or LightX2V product and is not endorsed by either team.

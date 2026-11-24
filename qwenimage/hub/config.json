@@ -1,0 +1,73 @@
+{
+  "name": "Qwen-Image-Lightning ReDiverse",
+  "method": "ReDiverse (ReDiverse-FT adapter + ReDiverse-TF steering)",
+  "paper": "arXiv:2611.18550",
+  "base_model": "Qwen/Qwen-Image",
+  "base_revision": "75e0b4be04f60ec59a75f475837eced720f823b6",
+  "student_lora": {
+    "repo": "lightx2v/Qwen-Image-Lightning",
+    "revision": "d468c534b360e0754c6bf9e38ed49e1e09cd2e2a",
+    "file": "Qwen-Image-Lightning-8steps-V2.0-bf16.safetensors",
+    "scale": 1.0
+  },
+  "teacher": "Qwen/Qwen-Image (Lightning LoRA off), 50 steps, true CFG 4, negative prompt ' '",
+  "resolution": [
+    1024,
+    1024
+  ],
+  "student_steps": 8,
+  "student_true_cfg": 1.0,
+  "student_scheduler": {
+    "use_dynamic_shifting": true,
+    "base_shift": 1.0986122886681098,
+    "max_shift": 1.0986122886681098,
+    "shift_terminal": null
+  },
+  "collapsed_block": 57,
+  "lora": {
+    "rank": 32,
+    "alpha": 32,
+    "blocks": "0..57",
+    "modules": [
+      "attn.to_q",
+      "attn.to_k",
+      "attn.to_v",
+      "attn.to_out.0",
+      "attn.add_q_proj",
+      "attn.add_k_proj",
+      "attn.add_v_proj",
+      "attn.to_add_out",
+      "img_mlp.net.0.proj",
+      "img_mlp.net.2",
+      "txt_mlp.net.0.proj",
+      "txt_mlp.net.2"
+    ],
+    "n_modules": 696,
+    "n_params": 205258752,
+    "dtype": "float32",
+    "active_steps": [
+      1
+    ]
+  },
+  "training": {
+    "target": "Qwen-Image block 57 image-stream rows at teacher forward 4 of 50 (3 steps with true CFG 4)",
+    "captions": "100 DiffusionDB captions x 16 noises",
+    "steps": 200,
+    "batch": 32,
+    "lr": 0.0001,
+    "loss": "MSE",
+    "student_input": "Qwen-Image-Lightning step 1 (sigma 1) from the same noise"
+  },
+  "tf": {
+    "block": 57,
+    "teacher_forward": 4,
+    "rollouts": 25,
+    "rollout_guidance": 0.0,
+    "directions": 8,
+    "alpha_range": 4.0,
+    "paper_alpha_range": 2.0,
+    "active_steps": [
+      1
+    ]
+  }
+}
